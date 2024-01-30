@@ -1,0 +1,88 @@
+# Docs and Notes
+
+## Todo
+
+[ ] Check how the code works in detail
+[ ] Read through doc: <https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-ai-search-outperforming-vector-search-with-hybrid/ba-p/3929167>
+[ ] Go through Search Approach: Understand what Hybrid Retrieval means
+[ ] Find out how expensive it was to build the App and how the cost was produced. (e.g. for Upload / Chunking for documents with 350 mb in total it was rougly 15 euros)
+
+## A) RAG Basics
+
+### Why RAG and not just GPT (an LLM)?
+
+LLMs are good at Language but not at Reasoning. RAG is a combination of both. It is a hybrid approach.
+
+- **Knowledge Cutoff**: There is a always a cut-off time for the training data of LLMs. So from this day on, the knowledge available is already outdated.
+- **Only public knowledge**: LLMs are trained on public knowledge. All sources which are interal to a company or behind a paywall are not included in the training data.
+
+### How can you incorporate your own knowledge?
+
+- **Prompt Engineering**: You can give the LLM a bit of context but it only works if it has the knowledge inside it. Often it also halicinates knowledge which looks correct but if you are a domain expert you can see that it is wrong. So prompt engineering Can be helpful but normally not enough. => Example with Market Salad GPT and "Indian food"
+- **Fine tuning**: You can fine tune the LLM on your own data. But this is very expensive and you need a lot of data. This is a valid option when your use case is very specialisd, you have a lot of data and you need very high accuracy, then this is probably the way to go. For most of company use cases it's not a good option economically.
+- **Retrieval Augmented Generation (RAG)**: You can use a retrieval system to find the most relevant documents and then use the LLM to generate the answer. This is the approach we are using in this project.
+
+### How does RAG work?
+
+- The user asks a question, then you take it and search for fitting documents in a knowledge base.
+- Afterwards you take the orginal user question together with the chunks from the knowledge base and feed it into the LLM to generate the answer.
+- Typical for a RAG based system is that the user will get the sources of the answer as well, so he can evalute the answer himself.
+
+TODO: add example prompts / queries of the chat here as code
+
+### Explain typical RAG components
+
+- **Retriver**: A knowledge base which is used to find the most relevant documents for a given question. This can be a search engine or a database which support vector search. (Azure Ai Search, CosmosDB, Postgres (<https://github.com/pgvector/pgvector>), Weaviate, Qdrant, Pineconce...)
+- **LLM** A Model which can answers the questions based on the provided sources and can include citations (GPT3.5 / 4 Models, etc.)
+- **Integration Layer ("Glue" in MS Slides)**: Optional Middleware which helps to connect the Retriver and the LLM. It can also be used to cache the results of the Retriver to speed up the process. It can be also done in pure Python but there are libaries which can help you with that. (Langchain, LLammaindex, Semantic Kernel, etc.)
+- **Additional Features**: You can add additional features to your chatbot like chat history, Feedback buttons, Text to Speech, User Login, File Upload, etc.
+
+### What kind of skillset is needed to build a RAG based chatbot?
+
+- **No Code**: For easy applications using Copilot Studio of Azure or OpenApi GPT Builder. This might be enough for simple use cases.
+- **Low Code**: UIs which help you to build more complex cases but within a UI (e.g. Azure Studio - On Your Data). There you can add hardware compontents (Retrievers as Azuer Ai Search, differen LLMs, Features as User Authentication, Chat History persistace.)
+- **Code**: For Code base there are a lot of Azure Examples or for other suppliers as well. An example is the Azure RAG Chatbot which is used in this project <https://github.com/Azure-Samples/azure-search-openai-demo>.
+
+## B) How to customize the RAG Chatbot
+
+### ...
+
+
+
+### ....
+
+## Learnings
+
+### 1. What is an optimal chunk size and a optimal overlap?
+
+- There is a blog post of MS which researched on this: [Azure AI Search: Outperforming vector search with hybrid retrieval and ranking capabilities](https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-ai-search-outperforming-vector-search-with-hybrid/ba-p/3929167)
+- They compared methods with different chunk sizes and different overlap sizes for Azure Ai Search.
+- Hybrid Retrieval (Keyword + Vectore search paired with Semantic Ranking) using chunks with 512 tokens and 25% overlap performed best.
+
+#### Technology behin Azure Ai Search
+
+There are two main layers in Azure Ai Search:
+
+- **Layer 1**: Retrieval - search for the most relevant documents. There are three methods supporte in Ai Search:
+  - **Keyword**: Traditional keyword search. It is the fastest but least accurate.
+  - **Vector**: Uses embeddings and cosine similarity to find the most similar documents. It is more accurate but slower.
+  - **Hybrid**: Combination of Keyword and Vector. For Azure Ai Search they are using Reciprocal Rank Fusion (<https://learn.microsoft.com/en-us/azure/search/vector-search-ranking#reciprocal-rank-fusion-rrf-for-hybrid-queries>).
+- **Layer 2**: Ranking - Prioritize the most relevant results. There is one method supported in Ai Search:
+  - **Semantic Ranking**: Uses a mulit-lingual, deep learning model adapted from Bing Search. It can rank the top 50 results from L1.
+
+#### Experiments for Search Methods
+
+- They tested the different methods with different query types and different retrieval configurations.
+- In both cases Hybrid retrieva with semantic ranking outperformed the other methods (namely Keyword, Vector and pure Hybrid).
+
+#### Experiment for Chunking Strategies
+
+- The paper compared different chunking and overalapping of chunks for the Hybrid Retrieval.
+- The best results were Chunks of 512 tokens with 25% overlap.
+
+#### What to do with these results in CAI?
+
+- This might be useful for data scientists in CAI as Chunink Strategy was one of the major questions by Francesc.
+- Keep in mind that the benchmarks are common benchmarks and might lead to different results in your specific use case.
+- The results are only valid for Azure Ai Search and might be different for other search engines. Especially the "Semantic Rankig" is a proprietary method of Microsoft. It has to be checked what this methods does exactly and if it is available in other search engines as well.
+
