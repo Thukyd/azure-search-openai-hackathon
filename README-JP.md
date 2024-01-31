@@ -43,13 +43,71 @@ TODO: add example prompts / queries of the chat here as code
 - **Low Code**: UIs which help you to build more complex cases but within a UI (e.g. Azure Studio - On Your Data). There you can add hardware compontents (Retrievers as Azuer Ai Search, differen LLMs, Features as User Authentication, Chat History persistace.)
 - **Code**: For Code base there are a lot of Azure Examples or for other suppliers as well. An example is the Azure RAG Chatbot which is used in this project <https://github.com/Azure-Samples/azure-search-openai-demo>.
 
-## B) How to customize the RAG Chatbot
+## B) How to customize the RAG Chatbot <https://www.youtube.com/watch?v=vt7oZg4bPAQ>
 
-### ...
+### How to run the chatbot locally
 
+#### Hotloading the Backend
 
+- go to your local folder in vs code, open a terminal and run
 
-### ....
+```bash
+  cd app
+./start.sh
+```
+
+This will load the azd env file and start the backend and frontend. It automatically reloads the backend if you change something in the code.
+
+- The backend is done on Quart (a Python framework based on Flask which supports async). It is a bit different from Flask but the same concepts apply. The frontend is in the folder `app/backend`. If you build a openai chat app like this, your backend should support async. The reasoning you can find in detail here: <https://blog.pamelafox.org/2023/09/best-practices-for-openai-chat-apps.html>
+
+#### Hotloading the Frontend
+
+- go to your local folder in vs code, open another terminal and run
+
+```bash
+  cd app/frontend
+  npm run dev
+```
+
+then
+
+  ```bash
+    npm run dev
+  ```
+
+- this will give you a seperate localhost:5173 where you can see the frontend. It automatically reloads the frontend if you change something in the code. The backend request are going to the local server you've spun up in the other terminal.
+- Be aware that in company network you may recieve proxy errors.
+
+### Customizing the frontend
+
+To customize specific elements of the application, you should modify the following files:
+
+| Change this file:                         | To customize:                 |
+|-------------------------------------------|-------------------------------|
+| `app/frontend/index.html`                 | title, metadata, script tag   |
+| `app/frontend/public/favicon.ico`         | browser tab icon             |
+| `app/frontend/src/pages/layout/Layout.tsx`| Navigation bar, colors        |
+| `app/frontend/src/pages/chat/Chat.tsx`    | "Chat" tab and default settings |
+| `app/frontend/src/pages/ask/Ask.tsx`      | "Ask" tab and default settings  |
+
+### Customizing the backend
+
+To customize specific elements of the backend, you should modify the following files:
+
+| Change this file:                                     | To customize:                       |
+|-------------------------------------------------------|-------------------------------------|
+| `app/backend/app.py`                                  | additional routes, app configuration|
+| `app/backend/approaches/chatreadretrieveread.py`      | "Chat" tab, RAG prompt and flow     |
+| `app/backend/approaches/chatreadretrievereadvision.py`| "Chat" tab, RAG flow when using vision - this is still experimental in this current state|
+| `app/backend/approaches/retrieveread.py`              | "Ask" tab, RAG prompt and flow      |
+| `app/backend/approaches/retrievereadvision.py`        | "Ask" tab, RAG flow when using vision |
+
+### Frontend - What is the Chat and Ask Tab?
+
+- The Chat Tab is the tab where you can chat with the bot. You get the answer can ask follow up questions based on this. It's got context. It's a multi-turn conversation.
+- The Ask Tab is the tab where you can ask a question and get an answer. It's a single turn conversation.
+
+### 
 
 ## Learnings
 
@@ -85,4 +143,3 @@ There are two main layers in Azure Ai Search:
 - This might be useful for data scientists in CAI as Chunink Strategy was one of the major questions by Francesc.
 - Keep in mind that the benchmarks are common benchmarks and might lead to different results in your specific use case.
 - The results are only valid for Azure Ai Search and might be different for other search engines. Especially the "Semantic Rankig" is a proprietary method of Microsoft. It has to be checked what this methods does exactly and if it is available in other search engines as well.
-
