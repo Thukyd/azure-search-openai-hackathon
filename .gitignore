@@ -149,3 +149,5 @@ static/
 # Data used
 data/**/*.md5
 data/*
+data_ai_act/*
+data_original/*
