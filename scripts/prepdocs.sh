@@ -66,6 +66,15 @@ if [ -n "$AZURE_TENANT_ID" ]; then
   tenantArg="--tenantid $AZURE_TENANT_ID"
 fi
 
+
+
+
+
+## NOTE: If you need to delete docuements - https://github.com/Azure-samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md#removing-documents
+# Single docs
+#./scripts/.venv/bin/python ./scripts/prepdocs.py --remove '../data/die vernderungen der wiener jdische gemeinde in der zwischenkriegszeit.pdf' --verbose \
+# Remove all docs
+#./scripts/.venv/bin/python ./scripts/prepdocs.py --removeall --verbose \
 ./scripts/.venv/bin/python ./scripts/prepdocs.py './data/*' --verbose \
 --storageaccount "$AZURE_STORAGE_ACCOUNT" --container "$AZURE_STORAGE_CONTAINER"  \
 --searchservice "$AZURE_SEARCH_SERVICE" --index "$AZURE_SEARCH_INDEX" \

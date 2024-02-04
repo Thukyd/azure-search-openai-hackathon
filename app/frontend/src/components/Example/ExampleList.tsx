@@ -2,10 +2,12 @@ import { Example } from "./Example";
 
 import styles from "./Example.module.css";
 
+// NOTE: Frontend - Excchanged Default Examples
+
 const DEFAULT_EXAMPLES: string[] = [
-    "What is included in my Northwind Health Plus plan that is not in standard?",
-    "What happens in a performance review?",
-    "What does a Product Manager do?"
+    "Tell me which events happend in Galicia?",
+    "What is the state of the war?",
+    "What news are there about the Jewish Community in Vienna?"
 ];
 
 const GPT4V_EXAMPLES: string[] = [

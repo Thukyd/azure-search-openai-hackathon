@@ -3,9 +3,10 @@
 ## Todo
 
 [ ] Check how the code works in detail
-[ ] Read through doc: <https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-ai-search-outperforming-vector-search-with-hybrid/ba-p/3929167>
-[ ] Go through Search Approach: Understand what Hybrid Retrieval means
+[x] Read through doc: <https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-ai-search-outperforming-vector-search-with-hybrid/ba-p/3929167>
+[x] Go through Search Approach: Understand what Hybrid Retrieval means
 [ ] Find out how expensive it was to build the App and how the cost was produced. (e.g. for Upload / Chunking for documents with 350 mb in total it was rougly 15 euros)
+[ ] Watch the Custom RAG Chatvideo till the end. A lot of customisation opportunities: https://www.youtube.com/watch?v=vt7oZg4bPAQ
 
 ## A) RAG Basics
 
@@ -107,7 +108,42 @@ To customize specific elements of the backend, you should modify the following f
 - The Chat Tab is the tab where you can chat with the bot. You get the answer can ask follow up questions based on this. It's got context. It's a multi-turn conversation.
 - The Ask Tab is the tab where you can ask a question and get an answer. It's a single turn conversation.
 
-### 
+### [ ] Check if there is still things missing in this section
+
+## Azure AI Search Best Practices <https://www.youtube.com/watch?v=ODuDeDrs3F0>
+
+### Retrieval Matters
+
+- As by experience of the MS team, the retrieval is the most important part of the RAG Chatbot. If the answers are not good the cause behind this is often not the LLM but the retrieval.
+- So it is important to work on a rebust retrieval system for RAG chat apps.
+- For best results in Azure Ai Search, you will probably want to use a hybrid approach.
+  - **Vector search** + **Keyword search** in parellel
+  - Using a **RFF** (Reciprocal Rank Fusion) to combine the results of both methods
+  - Then use the **Semantic Ranking** to rank the top results from the hybrid search
+
+See the following slides for more details:
+<https://speakerdeck.com/pamelafox/azure-ai-search-best-practices-for-rag-chat-apps?slide=6>
+
+### Vector Search
+
+What is Vector Search based on? What are their strengths and weaknesses?
+
+#### Vector embeddings
+
+- Take a text and convert it into a list of floating point numbers (vector), so the the text is represented as a vector.
+- There are very different models for this. The most common ones are:
+  - **Word2Vec**: A classic model which takes in words
+  - **OpenAi ada-002**: A model which takes in sentences
+  - **Azure Computer Vision**: A model which takes in images or text
+  
+#### Demo how to compute a vector and use it for search with OpenAi ada-002 vector embeddings
+
+Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embeddings.ipynb>
+
+- create a vector representation of a text (list of floating point numbers)
+- with this vector you can search for similarities to other embeddings. For this you calculate the distance, usually the cosine distance. The code shows a couple of examples. It's important to mention that it's the relevant distance between the cosines not the absolutes.
+- in the demo there is a list of movies already as embeddings. If you query e.g. "Barbie" it showed "Babies in Toyland" and "Shopgirl" as the highest scores.
+- => it's not only the wording but also the context, the meaning, etc. which is included in the vector. The specifics depends on the model you are using.
 
 ## Learnings
 
@@ -143,3 +179,36 @@ There are two main layers in Azure Ai Search:
 - This might be useful for data scientists in CAI as Chunink Strategy was one of the major questions by Francesc.
 - Keep in mind that the benchmarks are common benchmarks and might lead to different results in your specific use case.
 - The results are only valid for Azure Ai Search and might be different for other search engines. Especially the "Semantic Rankig" is a proprietary method of Microsoft. It has to be checked what this methods does exactly and if it is available in other search engines as well.
+
+
+
+
+### Further interesting points
+
+#### TODO: What kind of Skillsets are needed for building a RAG Chatbot?
+
+- Frontend / Backend: Classical Web Developer
+- Data Preparation: Data Engineer
+
+#### TODO: What are your most important learnings and why?
+
+- Cost estimations are really hard for this use case. It depends a lot on the size of the documents, your chunking strategy, the number of documents, the number of users, the number of requests, etc.
+- ==> What is the best way to estimate the costs for a RAG Chatbot?
+
+
+#### TODO: Top Challenges 
+
+##### Cost Estimations
+
+....
+
+##### Evaluation if data was read correctly
+
+- There might be a lot of noise in the data....
+
+....
+
+
+### Further Improvements
+
+- Implement the Text Recognition for "Fraktur" (old german font) by using Transkribus OCR <https://readcoop.eu/transkribus/docu/rest-api/upload/>.

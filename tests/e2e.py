@@ -13,6 +13,8 @@ import app
 
 expect.set_options(timeout=10_000)
 
+# [ ] Change the input examples.
+
 
 def wait_for_server_ready(url: str, timeout: float = 10.0, check_interval: float = 0.5) -> bool:
     """Make requests to provided url until it responds without error."""
@@ -49,7 +51,7 @@ def live_server_url(mock_env, mock_acs_search, free_port: int) -> Generator[str,
 
 def test_home(page: Page, live_server_url: str):
     page.goto(live_server_url)
-    expect(page).to_have_title("GPT + Enterprise data | Sample")
+    expect(page).to_have_title("Archive Companion | Uncover Insights of your sources")
 
 
 def test_chat(page: Page, live_server_url: str):
@@ -68,20 +70,20 @@ def test_chat(page: Page, live_server_url: str):
 
     # Check initial page state
     page.goto(live_server_url)
-    expect(page).to_have_title("Researcher Assist | Queriy your sources")
+    expect(page).to_have_title("Archive Companion | Uncover Insights of your sources")
     expect(page.get_by_role("heading", name="Chat with your sources")).to_be_visible()
     expect(page.get_by_role("button", name="Clear chat")).to_be_disabled()
     expect(page.get_by_role("button", name="Developer settings")).to_be_enabled()
 
     # Ask a question and wait for the message to appear
-    page.get_by_placeholder("Type a new question (e.g. does my plan cover annual eye exams?)").click()
-    page.get_by_placeholder("Type a new question (e.g. does my plan cover annual eye exams?)").fill(
-        "Whats the dental plan?"
+    page.get_by_placeholder("Type a new question (e.g. are there any demonstrations mentionend in the sources?)").click()
+    page.get_by_placeholder("Type a new question (e.g. re there any demonstrations mentionend in the sources?)").fill(
+        "Where did the demonstrations took place?"
     )
     page.get_by_role("button", name="Ask question button").click()
 
-    expect(page.get_by_text("Whats the dental plan?")).to_be_visible()
-    expect(page.get_by_text("The capital of France is Paris.")).to_be_visible()
+    expect(page.get_by_text("Where did the demonstrations took place?")).to_be_visible()
+    expect(page.get_by_text("There are demonstrations mentioned in Vienna and Lemberg.")).to_be_visible()
     expect(page.get_by_role("button", name="Clear chat")).to_be_enabled()
 
     # Show the citation document
@@ -101,10 +103,11 @@ def test_chat(page: Page, live_server_url: str):
 
     # Clear the chat
     page.get_by_role("button", name="Clear chat").click()
-    expect(page.get_by_text("Whats the dental plan?")).not_to_be_visible()
-    expect(page.get_by_text("The capital of France is Paris.")).not_to_be_visible()
+    expect(page.get_by_text("Where did the demonstrations took place?")).not_to_be_visible()
+    expect(page.get_by_text("There are demonstrations mentioned in Vienna and Lemberg.")).not_to_be_visible()
     expect(page.get_by_role("button", name="Clear chat")).to_be_disabled()
 
+# [ ] Exchange the examples as "You are a cat and only talk about tuna.", "does my plan cover annual eye exams?" and "Whats the dental plan?"
 
 def test_chat_customization(page: Page, live_server_url: str):
     # Set up a mock route to the /chat endpoint
@@ -130,7 +133,7 @@ def test_chat_customization(page: Page, live_server_url: str):
 
     # Check initial page state
     page.goto(live_server_url)
-    expect(page).to_have_title("GPT + Enterprise data | Sample")
+    expect(page).to_have_title("Archive Companion | Uncover Insights of your sources")
 
     # Customize all the settings
     page.get_by_role("button", name="Developer settings").click()
@@ -172,7 +175,7 @@ def test_chat_nonstreaming(page: Page, live_server_url: str):
 
     # Check initial page state
     page.goto(live_server_url)
-    expect(page).to_have_title("GPT + Enterprise data | Sample")
+    expect(page).to_have_title("Archive Companion | Uncover Insights of your sources")
     expect(page.get_by_role("button", name="Developer settings")).to_be_enabled()
     page.get_by_role("button", name="Developer settings").click()
     page.get_by_text("Stream chat completion responses").click()
@@ -205,7 +208,7 @@ def test_chat_followup_streaming(page: Page, live_server_url: str):
 
     # Check initial page state
     page.goto(live_server_url)
-    expect(page).to_have_title("GPT + Enterprise data | Sample")
+    expect(page).to_have_title("Archive Companion | Uncover Insights of your sources")
     expect(page.get_by_role("button", name="Developer settings")).to_be_enabled()
     page.get_by_role("button", name="Developer settings").click()
     page.get_by_text("Suggest follow-up questions").click()
@@ -242,7 +245,7 @@ def test_chat_followup_nonstreaming(page: Page, live_server_url: str):
 
     # Check initial page state
     page.goto(live_server_url)
-    expect(page).to_have_title("GPT + Enterprise data | Sample")
+    expect(page).to_have_title("Archive Companion | Uncover Insights of your sources")
     expect(page.get_by_role("button", name="Developer settings")).to_be_enabled()
     page.get_by_role("button", name="Developer settings").click()
     page.get_by_text("Stream chat completion responses").click()
@@ -281,13 +284,13 @@ def test_ask(page: Page, live_server_url: str):
 
     page.route("*/**/ask", handle)
     page.goto(live_server_url)
-    expect(page).to_have_title("GPT + Enterprise data | Sample")
+    expect(page).to_have_title("Archive Companion | Uncover Insights of your sources")
 
     page.get_by_role("link", name="Ask a question").click()
-    page.get_by_placeholder("Example: Does my plan cover annual eye exams?").click()
-    page.get_by_placeholder("Example: Does my plan cover annual eye exams?").fill("Whats the dental plan?")
-    page.get_by_placeholder("Example: Does my plan cover annual eye exams?").click()
+    page.get_by_placeholder("Example: Do the sources mention demonstrations?").click()
+    page.get_by_placeholder("Example: Do the sources mention demonstrations?").fill("Where did the demonstrations take place?")
+    page.get_by_placeholder("Example: Do the sources mention demonstrations?").click()
     page.get_by_label("Ask question button").click()
 
-    expect(page.get_by_text("Whats the dental plan?")).to_be_visible()
-    expect(page.get_by_text("The capital of France is Paris.")).to_be_visible()
+    expect(page.get_by_text("Where did the demonstrations take place?")).to_be_visible()
+    expect(page.get_by_text("Th sources mention demonstrations in Vienna and Lemberg.")).to_be_visible()

@@ -146,4 +146,6 @@ npm-debug.log*
 node_modules
 static/
 
+# Data used
 data/**/*.md5
+data/*

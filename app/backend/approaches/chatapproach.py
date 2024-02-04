@@ -13,6 +13,7 @@ from openai.types.chat import (
 from approaches.approach import Approach
 from core.messagebuilder import MessageBuilder
 
+# NOTE: Added prompt context for academic research
 
 class ChatApproach(Approach, ABC):
     # Chat roles
@@ -21,29 +22,30 @@ class ChatApproach(Approach, ABC):
     ASSISTANT = "assistant"
 
     query_prompt_few_shots = [
-        {"role": USER, "content": "How did crypto do last year?"},
-        {"role": ASSISTANT, "content": "Summarize Cryptocurrency Market Dynamics from last year"},
-        {"role": USER, "content": "What are my health plans?"},
-        {"role": ASSISTANT, "content": "Show available health plans"},
+        {"role": USER, "content": "Tell me about the impact of World War I on the Jewish community in Vienna."},
+        {"role": ASSISTANT, "content": "Summarize the socio-economic impact of World War I on Vienna's Jewish community"},
+        {"role": USER, "content": "What was the role of Jewish newspapers during the war?"},
+        {"role": ASSISTANT, "content": "Elaborate on the role of Jewish newspapers in Vienna during World War I"},
     ]
     NO_RESPONSE = "0"
 
-    follow_up_questions_prompt_content = """Generate 3 very brief follow-up questions that the user would likely ask next.
+    follow_up_questions_prompt_content = """Generate 3 very brief follow-up questions that the user would likely ask next about Viennese Jewish newspapers during World War I.
     Enclose the follow-up questions in double angle brackets. Example:
-    <<Are there exclusions for prescriptions?>>
-    <<Which pharmacies can be ordered from?>>
-    <<What is the limit for over-the-counter medication?>>
-    Do no repeat questions that have already been asked.
+    <<How did censorship affect newspaper reporting?>>
+    <<Can you provide examples of coded language used in these newspapers?>>
+    <<What were the main themes covered in the Jewish newspapers during this period?>>
+    Do not repeat questions that have already been asked.
     Make sure the last question ends with ">>".
     """
 
-    query_prompt_template = """Below is a history of the conversation so far, and a new question asked by the user that needs to be answered by searching in a knowledge.
-    You have access to Azure AI Search index with 100's of documents.
+    query_prompt_template = """Below is a history of the conversation so far, and a new question asked by the user that needs to be answered by searching in a knowledge base focusing on historical newspapers.
+    You have access to Azure AI Search index with hundreds of historical documents.
     Generate a search query based on the conversation and the new question.
-    Do not include cited source filenames and document names e.g info.txt or doc.pdf in the search query terms.
-    Do not include any text inside [] or <<>> in the search query terms.
-    Do not include any special characters like '+'.
-    If the question is not in English, translate the question to English before generating the search query.
+    Consider multilingual content and historical context in your search terms.
+    Do not include cited source filenames and document names e.g., info.txt or doc.pdf in the search query terms.
+    Exclude any text inside [] or <<>> in the search query terms.
+    Avoid using special characters like '+'.
+    Translate non-English questions into English before generating the search query.
     If you cannot generate a search query, return just the number 0.
     """
 
