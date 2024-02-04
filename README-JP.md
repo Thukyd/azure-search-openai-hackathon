@@ -6,9 +6,23 @@
 [x] Read through doc: <https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-ai-search-outperforming-vector-search-with-hybrid/ba-p/3929167>
 [x] Go through Search Approach: Understand what Hybrid Retrieval means
 [ ] Find out how expensive it was to build the App and how the cost was produced. (e.g. for Upload / Chunking for documents with 350 mb in total it was rougly 15 euros)
-[ ] Watch the Custom RAG Chatvideo till the end. A lot of customisation opportunities: https://www.youtube.com/watch?v=vt7oZg4bPAQ
+[ ] Watch the Custom RAG Chatvideo till the end. A lot of customisation opportunities: <https://www.youtube.com/watch?v=vt7oZg4bPAQ>
+[ ] Go through "builidng a Rag Chat App to slide 26 - a code walkthrough! Very important!
 
 ## A) RAG Basics
+
+## Cost Overview and Deployment Considerations
+
+### Azure AI Search Pricing Insights
+- The main cost driver was Azure AI Search, not OpenAI.
+- Standard S1 Plan: $245/month, necessary for >2GB data. [Azure Search Pricing Details](https://azure.microsoft.com/en-gb/pricing/details/search/).
+- For up to 2GB of data: $75/month.
+
+### Cost Reduction Strategies
+- Explore free or lower-cost deployment options:
+  - [Low-cost Deployment Guide](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/deploy_lowcost.md)
+  - [Instructional Video for Low-Cost Deployment](https://www.youtube.com/watch?v=nlIyos0RXHw)
+
 
 ### Why RAG and not just GPT (an LLM)?
 
@@ -78,6 +92,33 @@ then
 
 - this will give you a seperate localhost:5173 where you can see the frontend. It automatically reloads the frontend if you change something in the code. The backend request are going to the local server you've spun up in the other terminal.
 - Be aware that in company network you may recieve proxy errors.
+
+###  Code Walkthrough
+
+#### Frontend
+
+- **Technology**: TypeScript
+- **Libraries/Frameworks**: React, FluentUI
+- **Functionality**:
+  - `chat.tsx`: Contains the UI components for the chat interface.
+    - `makeApiRequest()`: Function to send requests to the backend API.
+  - `api.ts`: Manages the API calls.
+    - `chatApi()`: Interface to communicate with the chat service in the backend.
+
+#### Backend
+
+- **Technology**: Python
+- **Libraries/Frameworks**: Quart, Uvicorn
+- **Functionality**:
+  - `app.py`: Main application file.
+    - `chat()`: Function that handles chat requests.
+  - `chatreadretrieveread.py`: Module for retrieving chat history and processing requests.
+    - `run()`: Main entry point for running the chat service.
+    - `get_search_query()`: Function to retrieve the search query from a request.
+    - `compute_text_embedding()`: Function to compute embeddings for text analysis.
+    - `search()`: Function to execute the search based on the query and embeddings.
+    - `get_messages_from_history()`: Function to retrieve past messages for context.
+    - `chat.completions.create()`: Function to generate chat responses.
 
 ### Customizing the frontend
 
@@ -180,9 +221,6 @@ There are two main layers in Azure Ai Search:
 - Keep in mind that the benchmarks are common benchmarks and might lead to different results in your specific use case.
 - The results are only valid for Azure Ai Search and might be different for other search engines. Especially the "Semantic Rankig" is a proprietary method of Microsoft. It has to be checked what this methods does exactly and if it is available in other search engines as well.
 
-
-
-
 ### Further interesting points
 
 #### TODO: What kind of Skillsets are needed for building a RAG Chatbot?
@@ -195,19 +233,23 @@ There are two main layers in Azure Ai Search:
 - Cost estimations are really hard for this use case. It depends a lot on the size of the documents, your chunking strategy, the number of documents, the number of users, the number of requests, etc.
 - ==> What is the best way to estimate the costs for a RAG Chatbot?
 
+#### TODO: Top Challenges
 
-#### TODO: Top Challenges 
+###  Cost Estimations
 
-##### Cost Estimations
-
-....
+### Lessons Learned: Managing Data Parsing Costs
+- Parsing: High-quality data parsing incurs high costs. For example, parsing 20 PDFs (87MB) led to a $30 charge.
+  - Microsoft's Advice: Use the local PDF parser to avoid such costs. Incorporate `--localpdfparser` in `prepdocs.sh`. This option is free and can be sufficient. [Discussion on Data Parsing Costs](https://github.com/microsoft/AI-Chat-App-Hack/discussions/45).
+  - Note: OCR is notably expensive and should be used sparingly.
+- SKUs: Keeping the data size small is crucial for cost management. SKUs fix costs can reach very high. See pricing details for [Azure Cognitive Search](https://azure.microsoft.com/en-gb/pricing/details/search/).
+- The openAi model was not the cost driver in my project but in real world it might be as well depending on the usage. You might want to implement a strategy to watch the toke usage and set up alerts.
+- It's worth it to spend more time on data preparation to avoid unnecessary costs. Do a proof of concept to evaluate this costs. It's worth it to spend time on this!
 
 ##### Evaluation if data was read correctly
 
 - There might be a lot of noise in the data....
 
 ....
-
 
 ### Further Improvements
 
