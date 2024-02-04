@@ -7,22 +7,55 @@
 [x] Go through Search Approach: Understand what Hybrid Retrieval means
 [ ] Find out how expensive it was to build the App and how the cost was produced. (e.g. for Upload / Chunking for documents with 350 mb in total it was rougly 15 euros)
 [ ] Watch the Custom RAG Chatvideo till the end. A lot of customisation opportunities: <https://www.youtube.com/watch?v=vt7oZg4bPAQ>
-[ ] Go through "builidng a Rag Chat App to slide 26 - a code walkthrough! Very important!
+[x] Go through "builidng a Rag Chat App to slide 26 - a code walkthrough! Very important!
+[ ] Add the Github ressources of the video to this doc: <https://www.youtube.com/watch?v=TI85JJVPnrM&t=1212> and  <https://github.com/sqlshep/OpenAI> - data pricacy etc. is mentionend there
+[ ] Add these repo for a lot of great patterns: <https://github.com/microsoft/azure-openai-design-patterns>
+
+## Explain how the repo works
+
+![Azure Search OpenAI Demo Components](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/appcomponents.png "Azure Search OpenAI Demo Components")
+
+### Deployment (follow below)
+
+- Read cost estimations section below first
+- Follow the deployment guide: <https://github.com/Azure-Samples/azure-search-openai-demo/tree/main?tab=readme-ov-file#azure-deployment>
+- The infrastucture, backend and frontend will be deployed to Azure with the biceps template.
+- Configurations can for the infrastructure can be done in via environment variables in the `azd.env` file.
+- The frontend and backend can be configured in the `app` folder. (see below)
+- The user can chat with the bot in the frontend. The frontend is a React app.
+- The backend is a Python app using the Quart framework.
+
+
+### Adding your data <https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md>
+
+- data (folder) - containt the data sources (pdfs, etc.) for the chatbot
+- scripts (folder) - contains python scripts to upload the data to Azure.
+  - In default, these scripts will take the documents, split the into single pages, pass them into Azure Form Recognizer.
+  - You can also parse the documents locally and then upload them to Azure Search. This is cheaper but also more work.
+- On Azure, the docs are stored in a blob storage, the chunking is done by Azure Form Recognizer and the indexed into Azure Search.
+
+### Chatting with the bot
+
+- The frontend sends the user input to the backend. The backend then sends the input to the OpenAI API and returns the answer to the frontend.
+- The backend also uses Azure Search to retrieve documents and uses the OpenAI API to generate the answer
+- The user can use two tabs: "Chat" and "Ask". The "Chat" tab is for multi-turn conversations and the "Ask" tab is for single-turn conversations.
+- The answer not only contains the answer but also the sources of the answer. Also the prompt and how the answer was generated is included - basically the thought process.
 
 ## A) RAG Basics
 
 ## Cost Overview and Deployment Considerations
 
 ### Azure AI Search Pricing Insights
+
 - The main cost driver was Azure AI Search, not OpenAI.
 - Standard S1 Plan: $245/month, necessary for >2GB data. [Azure Search Pricing Details](https://azure.microsoft.com/en-gb/pricing/details/search/).
 - For up to 2GB of data: $75/month.
 
 ### Cost Reduction Strategies
+
 - Explore free or lower-cost deployment options:
   - [Low-cost Deployment Guide](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/deploy_lowcost.md)
   - [Instructional Video for Low-Cost Deployment](https://www.youtube.com/watch?v=nlIyos0RXHw)
-
 
 ### Why RAG and not just GPT (an LLM)?
 
@@ -149,6 +182,8 @@ To customize specific elements of the backend, you should modify the following f
 - The Chat Tab is the tab where you can chat with the bot. You get the answer can ask follow up questions based on this. It's got context. It's a multi-turn conversation.
 - The Ask Tab is the tab where you can ask a question and get an answer. It's a single turn conversation.
 
+
+
 ### [ ] Check if there is still things missing in this section
 
 ## Azure AI Search Best Practices <https://www.youtube.com/watch?v=ODuDeDrs3F0>
@@ -237,13 +272,38 @@ There are two main layers in Azure Ai Search:
 
 ###  Cost Estimations
 
+### Lessons Learned: Do courses - always include hands on parts
+
+- For non-technical people:
+  - The Course by Nng
+  - then some hands one with Azure portal ressources?
+- For technical people:
+  - Hackathons..
+- Use the Allianz Boost!
+
 ### Lessons Learned: Managing Data Parsing Costs
+
 - Parsing: High-quality data parsing incurs high costs. For example, parsing 20 PDFs (87MB) led to a $30 charge.
   - Microsoft's Advice: Use the local PDF parser to avoid such costs. Incorporate `--localpdfparser` in `prepdocs.sh`. This option is free and can be sufficient. [Discussion on Data Parsing Costs](https://github.com/microsoft/AI-Chat-App-Hack/discussions/45).
   - Note: OCR is notably expensive and should be used sparingly.
 - SKUs: Keeping the data size small is crucial for cost management. SKUs fix costs can reach very high. See pricing details for [Azure Cognitive Search](https://azure.microsoft.com/en-gb/pricing/details/search/).
 - The openAi model was not the cost driver in my project but in real world it might be as well depending on the usage. You might want to implement a strategy to watch the toke usage and set up alerts.
 - It's worth it to spend more time on data preparation to avoid unnecessary costs. Do a proof of concept to evaluate this costs. It's worth it to spend time on this!
+  - create an example case with the needed infra. Check cost drivers on a limited set.
+  - make sure you can identify the cost drivers and set up alerts for them.
+
+### Lessons Learned: User Interaction to GPT Model
+
+- You probably do not want to give the user direct access to the GPT model behind for minimum two reasons:
+  - the results of the chat are heavily dependent on the quality of the query. In this current architecture, the query will be send directly to the Knowledge Base. The results back for this are often not very good, if it's not formulated in a specific way, easy to consume for the knowledge base. Probably it's better to have a middleware which can help to improve the query before it's send to the knowledge base.
+  - You don't want to expose the knowledge base to the user. It's a security risk. You want to have a middleware which can help to improve the query before it's send to the knowledge base.
+- For this, Cognigy can acutally bring a great value, if it will be transformed into an orchstrator for knowledge base & gpt.
+
+### Lessons Learned: Cogingy
+They are doing a lot of things which is described in these Azure Ressources
+
+- Knowlegd Base is basically the same as the RAG repository (https://github.com/Azure-Samples/azure-search-openai-demo/tree/main)
+- 
 
 ##### Evaluation if data was read correctly
 
@@ -254,3 +314,19 @@ There are two main layers in Azure Ai Search:
 ### Further Improvements
 
 - Implement the Text Recognition for "Fraktur" (old german font) by using Transkribus OCR <https://readcoop.eu/transkribus/docu/rest-api/upload/>.
+
+
+[def]: ttps://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/appcomponents.pn
+
+
+### Hot to put the chatbot into production
+
+[Setting this bot into production](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/productionizing.md)
+
+
+### Next Learning steps
+
+- Lang Chain: This is a middleware which can be used to connect the Retriver and the LLM. It can also be used to cache the results of the Retriver to speed up the process. It can be also done in pure Python but there are libaries which can help you with that. (Langchain, LLammaindex, Semantic Kernel, etc.)
+- Azure OpenAI Design Patterns:
+  - Knowledge Search with Embeddings => this is Azure Cognitive Search Database https://github.com/ruoccofabrizio/azure-open-ai-embeddings-qna 
+- Prompt Engineering:
