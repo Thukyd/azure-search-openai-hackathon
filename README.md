@@ -17,6 +17,23 @@
 - [x] Go through "builidng a Rag Chat App to slide 26 - a code walkthrough! Very important!
 - [ ] Add the Github ressources of the video to this doc: <https://www.youtube.com/watch?v=TI85JJVPnrM&t=1212> and  <https://github.com/sqlshep/OpenAI> - data pricacy etc. is mentionend there
 - [ ] Add these repo for a lot of great patterns: <https://github.com/microsoft/azure-openai-design-patterns>
+- [ ] at the end add table of content for the readme
+- [ ] Describe your use case
+  - What is your personal goal in the hackathon?
+    - Understanding what Cognigy Knowledge Ai is behind the hood.
+    - With that knowledge I want to be able evaluate the solution of the Cognigy platform better and understand the limitations and possibilitis
+    - For Customer Projects, to know early where the limitations are and how to deal with them.
+  - What problem are you solving?
+    - Brief explanatio of your thesis
+    - Main challenges while writing (Fraktur, endless data and clustering)
+  - Why did you think the bachelor thesis is a good use case for the hackathon?
+    - Known sources & relevant questions to the sources = better to evaluate the results
+    - Difficult case of parsing Fraktur - how to deal with difficult data sources
+    - Fun - If I could travel back in time, I would like to handover this app to the younger me!
+
+## Table of Content
+
+[ ] To done at the end
 
 ## A) Building a RAG Chat App
 
@@ -26,7 +43,8 @@
 
 ### How can you incorporate your own knowledge?
 
-- **Prompt Engineering**: You can give the LLM a bit of context but it only works if it has the knowledge inside it. Often it also halicinates knowledge which looks correct but if you are a domain expert you can see that it is wrong. So prompt engineering Can be helpful but normally not enough. => Example with Market Salad GPT and "Indian food"
+- **Prompt Engineering**: You can give the LLM a bit of context but it only works if it has the knowledge inside it. Often it also halicinates knowledge which looks correct but if you are a domain expert you can see that it is wrong. So prompt engineering Can be helpful but normally not enough.
+  - Example using Custom GPTs of OpenAI: Searching for "Indian food", see [Custom GPT | Salad Market - create your own salad recipe](https://chat.openai.com/g/g-dI7cfBY99-salad-market-create-your-own-salad-recipe)
 - **Fine tuning**: You can fine tune the LLM on your own data. But this is very expensive and you need a lot of data. This is a valid option when your use case is very specialisd, you have a lot of data and you need very high accuracy, then this is probably the way to go. For most of company use cases it's not a good option economically.
 - **Retrieval Augmented Generation (RAG)**: You can use a retrieval system to find the most relevant documents and then use the LLM to generate the answer. This is the approach we are using in this project.
 
@@ -105,17 +123,6 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
   - By default, these scripts will process the documents by splitting them into individual pages and then pass them to Azure Document Intelligence.
   - Alternatively, you can parse the documents locally and then upload them to Azure Search. This approach may be more cost-effective but requires additional effort.
 - Within Azure, documents are stored in Blob Storage. Azure Form Recognizer handles the document chunking, creating embeddings from the text. These embeddings, along with the text itself, are then stored in an index within Azure Search.
-
-#### How to deal with data which is not a PDF?
-
-#### Converting webpages to PDFs
-
-- Quick option is to save the webpage as PDF. Look in the slides of the Hackathon for more details and links.
-
-#### Other approach: Write a a custom parser
-
-- it's merged to the repo by now. In details, look again at the Hackathon slides. There is some documentation how this can be done.
-- There is also a [youtube video](https://www.youtube.com/live/vt7oZg4bPAQ?si=Kzh4tBtZX5Oo3I6K&t=2602) where the custom parser is explained in detail.
 
 ### Chatting with the Bot
 
@@ -208,7 +215,11 @@ You can check that at the frontend. There is a button "Show Thought Process" whi
   - [Low-cost Deployment Guide](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/deploy_lowcost.md)
   - [Instructional Video for Low-Cost Deployment](https://www.youtube.com/watch?v=nlIyos0RXHw)
 
-## B) How to customize the RAG Chatbot <https://www.youtube.com/watch?v=vt7oZg4bPAQ>
+## B) How to customize the RAG Chatbot
+
+- **Slides**: [How to customize the RAG Chatbot](2_slides/AIChatAppHack_CustomizingYourRAGChatApp.pdf "Click to open the PDF")
+
+- **Video**: [Live Session](https://www.youtube.com/watch?v=vt7oZg4bPAQ)
 
 ### How to run the chatbot locally
 
@@ -301,9 +312,24 @@ To customize specific elements of the backend, you should modify the following f
 - The Chat Tab is the tab where you can chat with the bot. You get the answer can ask follow up questions based on this. It's got context. It's a multi-turn conversation.
 - The Ask Tab is the tab where you can ask a question and get an answer. It's a single turn conversation.
 
-### [ ] Check if there is still things missing in this section
+### How to deal with data which is not a PDF?
 
-## Azure AI Search Best Practices <https://www.youtube.com/watch?v=ODuDeDrs3F0>
+This part was mentionend in the 
+
+### Converting webpages to PDFs
+
+- Quick option is to save the webpage as PDF. Look in the slides of the Hackathon for more details and links.
+
+### Other approach: Write a a custom parser
+
+- it's merged to the repo by now. In details, look again at the Hackathon slides. There is some documentation how this can be done.
+- There is also a [youtube video](https://www.youtube.com/live/vt7oZg4bPAQ?si=Kzh4tBtZX5Oo3I6K&t=2602) where the custom parser is explained in detail.
+
+## C) Azure AI Search Best Practices
+
+- **Slides**: [Azure AI Search Best Practices](2_slides/AIChatAppHack_AISearchBestPractices.pdf "Click to open the PDF")
+
+- **Video**: [Live Session](https://www.youtube.com/watch?v=ODuDeDrs3F0)
 
 ### Retrieval Matters
 
@@ -337,6 +363,11 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 - with this vector you can search for similarities to other embeddings. For this you calculate the distance, usually the cosine distance. The code shows a couple of examples. It's important to mention that it's the relevant distance between the cosines not the absolutes.
 - in the demo there is a list of movies already as embeddings. If you query e.g. "Barbie" it showed "Babies in Toyland" and "Shopgirl" as the highest scores.
 - => it's not only the wording but also the context, the meaning, etc. which is included in the vector. The specifics depends on the model you are using.
+
+
+- [ ] Continue with the video of the session
+
+
 
 ## Learnings
 
