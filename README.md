@@ -20,8 +20,8 @@
 
 ## A) Building a RAG Chat App
 
-- Slides: </2_slides/AIChatAppHack_BuildingARAGChatApp.pdf>
-- Video: <https://www.youtube.com/watch?v=hX1yaUBpM4s>
+- **Slides**: <2_slides/AIChatAppHack_BuildingARAGChatApp.pdf>
+- **Video**: <https://www.youtube.com/watch?v=hX1yaUBpM4s>
 
 ### How can you incorporate your own knowledge?
 
