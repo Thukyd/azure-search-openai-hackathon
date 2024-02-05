@@ -314,9 +314,9 @@ To customize specific elements of the backend, you should modify the following f
 
 ### How to deal with data which is not a PDF?
 
-This part was mentionend in the 
+This part was mentionend in the live session and the slides. In case you need a deeper dive, look at the provided sources.
 
-### Converting webpages to PDFs
+#### Converting webpages to PDFs
 
 - Quick option is to save the webpage as PDF. Look in the slides of the Hackathon for more details and links.
 
@@ -364,10 +364,61 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 - in the demo there is a list of movies already as embeddings. If you query e.g. "Barbie" it showed "Babies in Toyland" and "Shopgirl" as the highest scores.
 - => it's not only the wording but also the context, the meaning, etc. which is included in the vector. The specifics depends on the model you are using.
 
+### Strategies for Vector Search
+
+#### ANN Search
+
+#### Exhaustive KNN search
+
+#### Filtered vector search
+
+#### Multi-vector search
+
+
+### Hybrid Search
+
+==> This is what you want to do most probably!
+
+
+
 
 - [ ] Continue with the video of the session
 
 
+
+
+
+
+## X) Access Control in Generative Ai
+
+- [ ] TODO Add slides
+
+- **Slides**: [Access Control in Generative Ai]( "Click to open the PDF")
+- **Video**: [Live Session]()
+
+Don't spend too much time on this. Just make sure that you have a basic understanding of the concept. Provide some sources where you can read more about it. Make sure to mention that this architecture can be added changed via env variables on an existing deployment. You can for example gating the access to your endpoint behind easy Auth. This is a good option if you want to make sure that random users can't use all of your tokens.
+
+### How can I make sure that the user can only access the data which is allowed?
+
+ - [ ] Todo: add the blogpost link
+There is blog post about it from MS: [Access Control in Generative Ai]()
+
+- There are options in the developer settings where I can add access control. 
+- **Use oid security filter**: 
+  - This is a security filter which can be used to filter the data based on the user's id. It's a good option if you have a user login and you want to make sure that the user can only access the data which is allowed for him.
+  - ...
+
+==> you can add social login (e.g. via Facebook, Google etc.) by making use of Azure Entra Identity. This is a good option if you want to make sure that the user can only access the data which is allowed for him.
+
+
+Describe what the difference between Authentication and Authorization is.
+
+- **Authentication**: This is the process of verifying who you are
+- **Authorization**: This is the process of verifying what you are allowed to do
+
+With that concept you can create a system which can have differen roles and permissions. You can then make sure that the user can only access the data which is allowed for him.
+
+You can use decorators (basically functions before functions) to make sure tha only authorized users can access certain routes. It's very easy to implement here. 
 
 ## Learnings
 
@@ -377,7 +428,7 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 - They compared methods with different chunk sizes and different overlap sizes for Azure Ai Search.
 - Hybrid Retrieval (Keyword + Vectore search paired with Semantic Ranking) using chunks with 512 tokens and 25% overlap performed best.
 
-#### Technology behin Azure Ai Search
+#### Technology behind Azure Ai Search
 
 There are two main layers in Azure Ai Search:
 
@@ -403,6 +454,11 @@ There are two main layers in Azure Ai Search:
 - This might be useful for data scientists in CAI as Chunink Strategy was one of the major questions by Francesc.
 - Keep in mind that the benchmarks are common benchmarks and might lead to different results in your specific use case.
 - The results are only valid for Azure Ai Search and might be different for other search engines. Especially the "Semantic Rankig" is a proprietary method of Microsoft. It has to be checked what this methods does exactly and if it is available in other search engines as well.
+
+
+
+
+
 
 ### Further interesting points
 
