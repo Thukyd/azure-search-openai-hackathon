@@ -18,7 +18,10 @@
 - [ ] Add the Github ressources of the video to this doc: <https://www.youtube.com/watch?v=TI85JJVPnrM&t=1212> and  <https://github.com/sqlshep/OpenAI> - data pricacy etc. is mentionend there
 - [ ] Add these repo for a lot of great patterns: <https://github.com/microsoft/azure-openai-design-patterns>
 
-## A) RAG Basics
+## A) Building a RAG Chat App
+
+- Slides: </2_slides/AIChatAppHack_BuildingARAGChatApp.pdf>
+- Video: <https://www.youtube.com/watch?v=hX1yaUBpM4s>
 
 ### How can you incorporate your own knowledge?
 
@@ -208,7 +211,7 @@ You can check that at the frontend. There is a button "Show Thought Process" whi
 
 ### How to run the chatbot locally
 
-Watch also the video which explains this in detail. There is also the option to use the VC Code debugger to go through the code step by step. 
+Watch also the video which explains this in detail. There is also the option to use the VC Code debugger to go through the code step by step.
 
 #### Hotloading the Backend
 
@@ -430,7 +433,6 @@ They are doing a lot of things which is described in these Azure Ressources
 ### Further Improvements
 
 - Implement the Text Recognition for "Fraktur" (old german font) by using Transkribus OCR <https://readcoop.eu/transkribus/docu/rest-api/upload/>.
-
 
 ###  Hot to put the chatbot into production
 
