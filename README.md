@@ -31,9 +31,14 @@
     - Difficult case of parsing Fraktur - how to deal with difficult data sources
     - Fun - If I could travel back in time, I would like to handover this app to the younger me!
 
+![HackChat](1_screenshots/Hack_Chat.png)
+
 ## Table of Content
 
 [ ] To done at the end
+
+
+
 
 ## A) Building a RAG Chat App
 
@@ -326,7 +331,22 @@ This part was mentionend in the live session and the slides. In case you need a 
 - it's merged to the repo by now. In details, look again at the Hackathon slides. There is some documentation how this can be done.
 - There is also a [youtube video](https://www.youtube.com/live/vt7oZg4bPAQ?si=Kzh4tBtZX5Oo3I6K&t=2602) where the custom parser is explained in detail.
 
-## C) Azure AI Search Best Practices
+## C) Connecting a RAG chat app to Azure Cosmos DB
+
+- **Slides**: [Connecting a RAG chat app to Azure Cosmos DB](2_slides/Hack_Cosmos.pdf "Click to open the PDF")
+
+- **Video**: [Live Session](https://www.youtube.com/watch?v=cpbzQ-PfC4Y)
+
+This session explains how to use Azure Cosmos DB (MongoDB of Azure) as a data source for a RAG chat app. For details see the slides and the video.
+
+- Why CosmosDB?
+  - It's ideal for semi-structured data.
+  - It's a NoSQL database which is very flexible.
+  - There is Vector Search support.
+  - It's a fully managed service which is scalable and has a high availability.
+  - This makes sense if you already have a datbase.
+
+## D) Azure AI Search Best Practices
 
 - **Slides**: [Azure AI Search Best Practices](2_slides/AIChatAppHack_AISearchBestPractices.pdf "Click to open the PDF")
 
@@ -408,12 +428,36 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 
 - [ ] Continue with the video of the session
 
+## E) GPT-4 with Vision
 
+- **Slides**: [GPT-4 with Vision - Repo](https://github.com/mattgotteiner/AI-Chat-App-Hack-Vision) "Click to open the PDF")
 
+- **Video**: [Live Session](https://www.youtube.com/watch?v=0g8BJwRRKAA)
 
+This session explains how to use GPT-4 with Vision in a RAG chat app. For details see the slides and the video.
 
+- This can be used to search for images e.g. tables inside a document which don't have annotations or text in them.
+- This can be also used for images and search for what is depicted in the image.
+- The models behind this, are trained on images and text together. That's why it can understand the context of the image but also the text in the image. For more details watch the video.
 
-## X) Access Control in Generative Ai
+![Vision Search](1_screenshots/vision_search.png)
+
+## F) RAG Chat Web Components
+
+- **Slides**: [RAG Chat Web Components](2_slides/AIChatAppHack_JSRAGChatAndWebComponents_v2.pdf "Click to open the PDF")
+
+- **Video**: [Live Session](https://www.youtube.com/watch?v=0g8BJwRRKAA)
+
+The session talks about how to use the RAG Chat Web Components in a RAG Chat app. For details see the slides and the video.
+
+- There is an alternative repo which is using purely [Javascript / Typescript](https://github.com/Azure-Samples/azure-search-openai-javascript)
+- The difference is that it is using Web Components. These are a set of web standards which allow you to create new HTML tags. They are reusable and can be used in any web application. They are also framework agnostic.
+- - It's also build on Docker containers.
+- Frontend teams work often with Javascript / Typescript and they are used to work with Web Components. This is why this repo is a good option for them.
+- From the backend it's all compatible. You could use the Javascript version here with the Python backend from the other repo. The only difference is the frontend.
+- The session explains the differences. For more details watch the video.
+
+## G) Access Control in Generative Ai
 
 - [ ] TODO Add slides
 
@@ -444,6 +488,81 @@ With that concept you can create a system which can have differen roles and perm
 
 You can use decorators (basically functions before functions) to make sure tha only authorized users can access certain routes. It's very easy to implement here. 
 
+## H) Evaluating a RAG Chat App
+
+- [ ] TODO Add slides
+
+- **Slides**: [Evaluating a RAG Chat App]( "Click to open the PDF")
+- **Video**: [Live Session]()
+
+### LLM OPS - Development Cycle
+
+...
+
+### Evaluation: Are the answers high quality?
+
+- Are the answers correct (relative to the knowledge base)?
+- Are they are clear and easy to understand?
+- Are they formatted in the disired manner?
+
+[ ] Add the screenshot what affects your quality?
+  - double emphasis on the retrieval by MS. Lot's of people spend time on the LLM but the retrieval is often the cause of bad results. But search is the pre-requisite for the LLM. If the search is bad, the LLM can't do anything about it.
+
+### Manual Evaluation/Experimentation
+
+#### Types of prompts
+
+- User Prompt: The prompt the user sends to the chatbot
+- System Prompt: The instructions and constrains for the chatbot - this is what you can influence!
+
+#### How to create the System Prompts?
+
+- One size does not fit all. You have to experiment with different prompts to find the best one for your use case. Sometimes very simple prompts are the best, sometimes more complex ones. You need to experiment with different prompts to find the best one for your use case.
+
+[ ] Insert the slide here
+
+#### The "Prompt Forumula"
+
+=> Share the link. Not perfect but very much worth to look at it.
+- Not every prompt needs all the components. It's a good starting point to experiment with different prompts.
+
+- **Task**: This is what you want the chatbot to do. It's the main goal of the prompt.
+- **Context**: 
+  - TWhat is the user's background?
+  - How does success look like in? 
+  - What environment is in there?
+  - **Most Important for RAG**:::: 
+- **Examples**: Examples of the ...
+- **Persona**: This can have a huge impact...
+- **Format**: ...
+- **Tone**: ...
+
+#### Demo: Applying the Prompt Formula to a project
+- You can overwrite the prompt tempalte in chat...
+
+.. if you are targeting a end user which writes in english, write the whole prompt in english!
+
+
+### Automated Evaluation
+
+[ ] add the repo here
+
+- If you have experts for your data, you can use this to evalute the quality of the chatbot. You want that humans look through it and give you examples. This can be used for automated evaluation.
+- For the Evaluation you should use the most powerful GPT model (GPT-4) even though your bot works with GPT-3. 
+- Basically you start with a bunch of question by domain experts / later user with the perfect answer.
+- You can use GPT to generate more...
+- For evalution, this will send the prompt to your model get the answer and send this response to the GPT-4 to evaluate on different metrics (e.g. gpt_coherence). You will get a score for the answer. This can be used to evaluate the quality of the chatbot.
+- Evaluate each of the prompts and answers multiple times. It always gives a slightly different result. You will see the range of quality of the answers.
+- GPT metrics are in the range from 0 to 5. The higher the better.
+
+
+### Quality Monitoring
+
+- You can log the answers - remove the PII data first! There are services for this - also by Azure.
+
+There is also monitoring for health ==> add this
+
+
 ## Learnings
 
 ### 1. What is an optimal chunk size and a optimal overlap?
@@ -473,7 +592,7 @@ Look at the "Hybrid Search" section of this readme. It's a combination of Keywor
 - The results are only valid for Azure Ai Search and might be different for other search engines. Especially the "Semantic Rankig" is a proprietary method of Microsoft. It has to be checked what this methods does exactly and if it is available in other search engines as well.
 
 
-
+#### Retrieval is crucial for the success of the RAG Chatbot
 
 
 
@@ -535,9 +654,22 @@ They are doing a lot of things which is described in these Azure Ressources
 
 ....
 
+
+
+#### RAG Development Cycle
+
 ### Further Improvements
 
 - Implement the Text Recognition for "Fraktur" (old german font) by using Transkribus OCR <https://readcoop.eu/transkribus/docu/rest-api/upload/>.
+
+#### Generate Prompts
+
+- don't use GPT to create the prompt alone. Take this as a starting point but prompts are quite a new concept which the GPT was not trained on. It's worth to experiment with different prompts to find the best one for your use case.
+
+#### There is no golden prompt
+
+- You need to experiment for each use case. 
+- You can use guidlenes to start but in the end it's best to build up experience. They argue it's kind of an art to find the best prompt for your use case.
 
 ###  Hot to put the chatbot into production
 
