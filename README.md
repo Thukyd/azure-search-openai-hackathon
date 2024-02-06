@@ -114,6 +114,19 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
 - **Interacting with the Bot**: Users can chat with the bot through the frontend. The frontend is developed as a React application.
 - **Backend Details**: The backend is a Python application that utilizes the Quart framework.
 
+#### Azure AI Search Pricing Insights
+
+- The main cost driver was Azure AI Search, not OpenAI.
+- Standard S1 Plan: $245/month, necessary for >2GB data. [Azure Search Pricing Details](https://azure.microsoft.com/en-gb/pricing/details/search/).
+- For up to 2GB of data: $75/month.
+
+#### Cost Reduction Strategies
+
+- Explore free or lower-cost deployment options:
+  - [Low-cost Deployment Guide](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/deploy_lowcost.md)
+  - [Tools to estimate costs for Azure](https://github.com/Azure-Samples/azure-search-openai-demo/tree/main?tab=readme-ov-file#azure-deployment)
+  - [Instructional Video for Low-Cost Deployment](https://www.youtube.com/watch?v=nlIyos0RXHw)
+
 ### Ingestion of your Data [Azure Search OpenAI Demo - Data Ingestion Guide](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md)
 
 ![alt text](https://miro.medium.com/v2/resize:fit:679/1*h4qoECB8eLEPQchsR5qA5A.gif)
@@ -202,18 +215,6 @@ You can check that at the frontend. There is a button "Show Thought Process" whi
   "{'role': 'user', 'content': 'Do the sources mention protests?\\n\\nSources:\\nHeft 10 (9.3.1917).pdf#page=2:  Jeder mun immer wieder erstaunt sein uber die ungeheure Zähigkeit des jüdischen Volkes, über die Kraft, die auch in der ungebildeten Masse aufgespeichert ist. Gelingt es, die kleine Zahl intellektuenter Führer dem poinischen Ju- dentum zu erhalten, über die es heute verfügt, indem man die Widerstandskraft dieser Männer gegen ein widriges Geschick stärkt, und gelingt es, den neuen heranstrebenden Kräften die Mog- lichkeit einer Ausbildung zu erofinen, so wird das getan, was alle Kreise des nationalen Juden- tums in Polen fordern. Der Prager Erlaß Der jüdische Nationalverein für Oesterreich hat zu Ende wosiger Woche einen scharfen Protest -gegen die Mallaahmen der Prager Behörden, durch welche die Freizügigkeit der jüdischen Flüchtlinge aus Galizien und der bukowina be- schränkt wurde, an das Ministerium des Innern gerichtet und um sofortige Aufhebung der ge- troffenen Ausnahmsverfügungen gebeten. Wie wir erfahren, sind inzwischen diese Verordnungen sistiert worden. Politische Rechte der Flüchtlinge Im Wiener Rathause hatte am 22.\\nHeft 44-45 (9.11.1917).pdf#page=4: Schmiegsamkeit und geradezu anekelnden Anbiederungspolitik ver- mochte das Blatt sich nicht länger zu halten. Alle Subsidien versiegten. Die Abonnenten haben eigentlich längst das Blatt aufgegeben.\" Und da auch die verschiedensten Wiederbelebungsver- suche in der letzten Zeit versagt hatten, war das Blatt dem Untergange geweiht. - Noch ein Be- weis für die Hinfälligkeit der assimilatorischen Richtung. Den wuchtigsten, weil den Todesstoß haben die Polen dem Blatte versetzt. Für die Po- len, oder ihnen zu Gefallen wurde eigentlich das Blatt vor zwölf Jahren gegründet. aber es stützte sich fast immer nur auf jüdische Leser. Ein Blatt ohne Richtung und ohne eigentliches Programm. stets nur nach den verschiedenen Windrichtungen auslugend, hatte es keine Existenzberechtigung und mußte endlich eingehen. Unter diesen vielen jüdischen Flüchtlingen sind noch jene Kriegsopfer nicht mitgezählt. die ihre letzten Mittel aufzehren und der staatlichen Fürsorge nicht tellhaftig wurden. Protest des jüdischen Militärvereines in Pe- tersburg. In der russisch-jüdischen Presse ver- öffentlicht der jüdische Militärverein einen scharfen Protest gegen die geheimen Verordnungen eines Stabskommandanten \\nHeft 28 (13.7.1917).pdf#page=4:  Ueberdies haben mehrere Pro- testversammlungen stattgefunden, Die Leitung der „Gesellschaft der Freunde\" hat zum Protest ihre Delegierten aus dem „,Conjoint Comittee“ zu- rückgezogen. Auch in anderen jüdischen Organi- sationen Englands wurde die Haltung des „,Ver- einigten Komitees\" abfällig kritisiert. Vergebens versuchten einige dem Judentum entfremdete Lords in der „Times“ den schlechten Eindruck, den das Komitee in der Oeffentlichkeit gemacht hatte, zu verwischen. Kennzeichnend ist, daß sich gegen diese nichtreligiösen Lords, die in der „Times\" erklärten, das Judentum wäre nicht eine nationale, sondern eine religiose Gemeinschaft, die orthodoxen Synagogen Englands aussprachen; - Des weitern meldet dasselbe Korrespondenz- Buro: In Glasgow hat auf einer jüdischen Volksversammlung das bekannte Mitglied des englischen Parlaments Joseph King die Haltung des „Conjoint Comitee\" als volksfeindlich kri- tisiert und ein jüdisches Palästina als einzige Lösung der Judenfrage bezeichnet. Desgleichen hat ein anderer Abgeordneter in einer Versamm\\'- lung der „Bnci Brithloge\" in London für den Zionismus '}"
 ]
 ```
-
-### Azure AI Search Pricing Insights
-
-- The main cost driver was Azure AI Search, not OpenAI.
-- Standard S1 Plan: $245/month, necessary for >2GB data. [Azure Search Pricing Details](https://azure.microsoft.com/en-gb/pricing/details/search/).
-- For up to 2GB of data: $75/month.
-
-### Cost Reduction Strategies
-
-- Explore free or lower-cost deployment options:
-  - [Low-cost Deployment Guide](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/deploy_lowcost.md)
-  - [Instructional Video for Low-Cost Deployment](https://www.youtube.com/watch?v=nlIyos0RXHw)
 
 ## B) How to customize the RAG Chatbot
 
@@ -364,21 +365,44 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 - in the demo there is a list of movies already as embeddings. If you query e.g. "Barbie" it showed "Babies in Toyland" and "Shopgirl" as the highest scores.
 - => it's not only the wording but also the context, the meaning, etc. which is included in the vector. The specifics depends on the model you are using.
 
+![Embeddings Example](https://arize.com/wp-content/uploads/2022/06/blog-king-queen-embeddings.jpg)
+
 ### Strategies for Vector Search
 
-#### ANN Search
+- in the slides/video there are different Vector Search strategies mentionend which can be applied. E.g. ANN search (Approximate Nearest Neighbors), Exhausted KNN search (K Nearest Neighbors). For more details look at the sources.
 
-#### Exhaustive KNN search
+### Hybrid Search - best of both worlds
 
-#### Filtered vector search
+#### What is used in Azure Ai Search?
 
-#### Multi-vector search
+- **Layer 1**: Retrieval - search for the most relevant documents. There are three methods supported in Ai Search:
+  1. **Keyword Search**: Traditional keyword search. This only works if it's a direct match. It is the fastest but least accurate.
+  2. **Vector Search**: Uses embeddings and cosine similarity to find the most similar documents. It also basically always finds results because there will be always gonna be a vector that is the closest which is still very far away. It is more accurate but slower.
+  3. **Hybrid Search**: Combination of Keyword and Vector. For Azure Ai Search they are using [RRF - Reciprocal Rank Fusion](<https://learn.microsoft.com/en-us/azure/search/vector-search-ranking#reciprocal-rank-fusion-rrf-for-hybrid-queries>).
+- **Layer 2**: Ranking - Prioritize the most relevant results. There is one method supported in Ai Search:
+  1. **Semantic Ranking**: Uses a mulit-lingual, deep learning model adapted from Bing Search. It can rank the top 50 results from L1.
 
+- => To get optimal results you will probably use all the combination of Hybrid and Semantic Ranking. But of course it will drive up the costs. So you have to find a good balance between costs and results.
 
-### Hybrid Search
+#### Hint: Chunking and Search Strategy
 
-==> This is what you want to do most probably!
+- in the "Lessons Learned" section of this document there is a summary of an MS paper which evaluates these different methods in detail.
 
+#### Demo to demonstrate the search methods
+
+- The Hackathon provided a [Repo which demontrates different Search mechanisms with examples](https://github.com/pamelafox/vector-search-demos/blob/main/search_relevance.ipynb)
+- It's worth to look at the examples and try them out. It's a good way to understand the differences between the methods.
+  - They are searching for the price "$45.00" - an exact string.
+  - With the vector search it did return results but non of them are containing this exact string.
+  - With the text search it found the string but you see the exact string but of course the query must contain the exact string.
+  - The Hybrid search found the exact string and also the other results.
+  - But Hybrid alone does not always rank the results high enough. This is why they are using the Semantic Ranking as well. This will help to put the most relevant results on top.
+
+![1_screenshots/hybrid_search_demonstration](1_screenshots/hybrid_search_demonstration.png)
+
+### Indexing data in Azure Ai Search
+
+#### Manual Indexing
 
 
 
@@ -430,14 +454,7 @@ You can use decorators (basically functions before functions) to make sure tha o
 
 #### Technology behind Azure Ai Search
 
-There are two main layers in Azure Ai Search:
-
-- **Layer 1**: Retrieval - search for the most relevant documents. There are three methods supporte in Ai Search:
-  - **Keyword**: Traditional keyword search. It is the fastest but least accurate.
-  - **Vector**: Uses embeddings and cosine similarity to find the most similar documents. It is more accurate but slower.
-  - **Hybrid**: Combination of Keyword and Vector. For Azure Ai Search they are using Reciprocal Rank Fusion (<https://learn.microsoft.com/en-us/azure/search/vector-search-ranking#reciprocal-rank-fusion-rrf-for-hybrid-queries>).
-- **Layer 2**: Ranking - Prioritize the most relevant results. There is one method supported in Ai Search:
-  - **Semantic Ranking**: Uses a mulit-lingual, deep learning model adapted from Bing Search. It can rank the top 50 results from L1.
+Look at the "Hybrid Search" section of this readme. It's a combination of Keyword and Vector search. For Azure Ai Search they are using Reciprocal Rank Fusion (<[def]>). 
 
 #### Experiments for Search Methods
 
@@ -532,3 +549,6 @@ They are doing a lot of things which is described in these Azure Ressources
 - Azure OpenAI Design Patterns:
   - Knowledge Search with Embeddings => this is Azure Cognitive Search Database <https://github.com/ruoccofabrizio/azure-open-ai-embeddings-qna>
 - Prompt Engineering:
+
+
+[def]: ttps://learn.microsoft.com/en-us/azure/search/vector-search-ranking#reciprocal-rank-fusion-rrf-for-hybrid-querie
