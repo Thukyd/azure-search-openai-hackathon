@@ -35,10 +35,94 @@
 
 ## Table of Content
 
-[ ] To done at the end
+[ ] Update at the end
 
-
-
+- [Docs and Notes](#docs-and-notes)
+  - [ Quick Links](#quick-links)
+  - [Todo](#todo)
+  - [Table of Content](#table-of-content)
+  - [A) Building a RAG Chat App](#a-building-a-rag-chat-app)
+    - [How can you incorporate your own knowledge?](#how-can-you-incorporate-your-own-knowledge)
+    - [Why RAG and not just GPT (an LLM)?](#why-rag-and-not-just-gpt-an-llm)
+    - [How does RAG work?](#how-does-rag-work)
+    - [Explain typical RAG components](#explain-typical-rag-components)
+    - [What kind of skillset is needed to build a RAG based chatbot?](#what-kind-of-skillset-is-needed-to-build-a-rag-based-chatbot)
+  - [Explain how the repo works](#explain-how-the-repo-works)
+    - [Process Flow](#process-flow)
+    - [Architecture Components](#architecture-components)
+    - [Deployment (steps in readme.md below)](#deployment-steps-in-readmemd-below)
+      - [Azure AI Search Pricing Insights](#azure-ai-search-pricing-insights)
+      - [Cost Reduction Strategies](#cost-reduction-strategies)
+    - [Ingestion of your Data Azure Search OpenAI Demo - Data Ingestion Guide](#ingestion-of-your-data-azure-search-openai-demo---data-ingestion-guide)
+    - [Chatting with the Bot](#chatting-with-the-bot)
+    - [What does the thought process of the app looks like?](#what-does-the-thought-process-of-the-app-looks-like)
+  - [B) How to customize the RAG Chatbot](#b-how-to-customize-the-rag-chatbot)
+    - [How to run the chatbot locally](#how-to-run-the-chatbot-locally)
+      - [Hotloading the Backend](#hotloading-the-backend)
+      - [Hotloading the Frontend](#hotloading-the-frontend)
+    - [ Code Walkthrough](#code-walkthrough)
+      - [Frontend](#frontend)
+      - [Backend](#backend)
+    - [Customizing the frontend](#customizing-the-frontend)
+    - [Customizing the backend](#customizing-the-backend)
+    - [Frontend - What is the Chat and Ask Tab?](#frontend---what-is-the-chat-and-ask-tab)
+    - [How to deal with data which is not a PDF?](#how-to-deal-with-data-which-is-not-a-pdf)
+      - [Converting webpages to PDFs](#converting-webpages-to-pdfs)
+    - [Other approach: Write a a custom parser](#other-approach-write-a-a-custom-parser)
+  - [C) Connecting a RAG chat app to Azure Cosmos DB](#c-connecting-a-rag-chat-app-to-azure-cosmos-db)
+  - [D) Azure AI Search Best Practices](#d-azure-ai-search-best-practices)
+    - [Retrieval Matters](#retrieval-matters)
+    - [Vector Search](#vector-search)
+      - [Vector embeddings](#vector-embeddings)
+      - [Demo how to compute a vector and use it for search with OpenAi ada-002 vector embeddings](#demo-how-to-compute-a-vector-and-use-it-for-search-with-openai-ada-002-vector-embeddings)
+    - [Strategies for Vector Search](#strategies-for-vector-search)
+    - [Hybrid Search - best of both worlds](#hybrid-search---best-of-both-worlds)
+      - [What is used in Azure Ai Search?](#what-is-used-in-azure-ai-search)
+      - [Hint: Chunking and Search Strategy](#hint-chunking-and-search-strategy)
+      - [Demo to demonstrate the search methods](#demo-to-demonstrate-the-search-methods)
+    - [Indexing data in Azure Ai Search](#indexing-data-in-azure-ai-search)
+      - [Manual Indexing](#manual-indexing)
+  - [E) GPT-4 with Vision](#e-gpt-4-with-vision)
+  - [F) RAG Chat Web Components](#f-rag-chat-web-components)
+  - [ G) Access Control in Generative Ai](#g-access-control-in-generative-ai)
+    - [How can I make sure that the user can only access the data which is allowed?](#how-can-i-make-sure-that-the-user-can-only-access-the-data-which-is-allowed)
+  - [ H) Evaluating a RAG Chat App](#h-evaluating-a-rag-chat-app)
+    - [LLM OPS - Development Cycle](#llm-ops---development-cycle)
+    - [Evaluation: Are the answers high quality?](#evaluation-are-the-answers-high-quality)
+    - [ Manual Evaluation/Experimentation](#manual-evaluationexperimentation)
+      - [Types of prompts](#types-of-prompts)
+      - [How to create the System Prompts?](#how-to-create-the-system-prompts)
+      - [The "Prompt Forumula"](#the-prompt-forumula)
+      - [Demo: Applying the Prompt Formula to a project](#demo-applying-the-prompt-formula-to-a-project)
+    - [ Automated Evaluation](#automated-evaluation)
+    - [ Quality Monitoring](#quality-monitoring)
+  - [ I) Chat Completion API Tools \& Functions in RAG Chat Apps](#i-chat-completion-api-tools--functions-in-rag-chat-apps)
+  - [ J) Continuous Deployment of your Chat App](#j-continuous-deployment-of-your-chat-app)
+  - [ K) Content Safety for Azure OpenAI](#k-content-safety-for-azure-openai)
+  - [ L) Building a Chat on your Business Data without writing a line of code](#l-building-a-chat-on-your-business-data-without-writing-a-line-of-code)
+  - [Learnings](#learnings)
+    - [1. What is an optimal chunk size and a optimal overlap?](#1-what-is-an-optimal-chunk-size-and-a-optimal-overlap)
+      - [Technology behind Azure Ai Search](#technology-behind-azure-ai-search)
+      - [Experiments for Search Methods](#experiments-for-search-methods)
+      - [Experiment for Chunking Strategies](#experiment-for-chunking-strategies)
+      - [What to do with these results in CAI?](#what-to-do-with-these-results-in-cai)
+      - [Retrieval is crucial for the success of the RAG Chatbot](#retrieval-is-crucial-for-the-success-of-the-rag-chatbot)
+    - [Further interesting points](#further-interesting-points)
+      - [TODO: What kind of Skillsets are needed for building a RAG Chatbot?](#todo-what-kind-of-skillsets-are-needed-for-building-a-rag-chatbot)
+      - [TODO: What are your most important learnings and why?](#todo-what-are-your-most-important-learnings-and-why)
+      - [TODO: Top Challenges](#todo-top-challenges)
+    - [ Cost Estimations](#cost-estimations)
+    - [Lessons Learned: Do courses - always include hands on parts](#lessons-learned-do-courses---always-include-hands-on-parts)
+    - [Lessons Learned: Managing Costs](#lessons-learned-managing-costs)
+    - [Lessons Learned: User Interaction to GPT Model](#lessons-learned-user-interaction-to-gpt-model)
+    - [Lessons Learned: Cogingy](#lessons-learned-cogingy)
+        - [Evaluation if data was read correctly](#evaluation-if-data-was-read-correctly)
+      - [RAG Development Cycle](#rag-development-cycle)
+    - [Further Improvements](#further-improvements)
+      - [Generate Prompts](#generate-prompts)
+      - [There is no golden prompt template](#there-is-no-golden-prompt-template)
+    - [ Hot to put the chatbot into production](#hot-to-put-the-chatbot-into-production)
+    - [ Next Learning steps](#next-learning-steps)
 
 ## A) Building a RAG Chat App
 
@@ -424,8 +508,6 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 
 #### Manual Indexing
 
-
-
 - [ ] Continue with the video of the session
 
 ## E) GPT-4 with Vision
@@ -457,7 +539,7 @@ The session talks about how to use the RAG Chat Web Components in a RAG Chat app
 - From the backend it's all compatible. You could use the Javascript version here with the Python backend from the other repo. The only difference is the frontend.
 - The session explains the differences. For more details watch the video.
 
-## G) Access Control in Generative Ai
+##  G) Access Control in Generative Ai
 
 - [ ] TODO Add slides
 
@@ -468,16 +550,15 @@ Don't spend too much time on this. Just make sure that you have a basic understa
 
 ### How can I make sure that the user can only access the data which is allowed?
 
- - [ ] Todo: add the blogpost link
+- [ ] Todo: add the blogpost link
 There is blog post about it from MS: [Access Control in Generative Ai]()
 
-- There are options in the developer settings where I can add access control. 
-- **Use oid security filter**: 
+- There are options in the developer settings where I can add access control.
+- **Use oid security filter**:
   - This is a security filter which can be used to filter the data based on the user's id. It's a good option if you have a user login and you want to make sure that the user can only access the data which is allowed for him.
   - ...
 
 ==> you can add social login (e.g. via Facebook, Google etc.) by making use of Azure Entra Identity. This is a good option if you want to make sure that the user can only access the data which is allowed for him.
-
 
 Describe what the difference between Authentication and Authorization is.
 
@@ -486,14 +567,12 @@ Describe what the difference between Authentication and Authorization is.
 
 With that concept you can create a system which can have differen roles and permissions. You can then make sure that the user can only access the data which is allowed for him.
 
-You can use decorators (basically functions before functions) to make sure tha only authorized users can access certain routes. It's very easy to implement here. 
+You can use decorators (basically functions before functions) to make sure tha only authorized users can access certain routes. It's very easy to implement here.
 
-## H) Evaluating a RAG Chat App
+##  H) Evaluating a RAG Chat App
 
-- [ ] TODO Add slides
-
-- **Slides**: [Evaluating a RAG Chat App]( "Click to open the PDF")
-- **Video**: [Live Session]()
+- **Slides**: [Evaluating a RAG Chat App](2_slides/AIChatAppHack_EvaluatingAChatApp.pdf "Click to open the PDF")
+- **Video**: [Live Session](https://www.youtube.com/watch?v=rKRQce7zx3U)
 
 ### LLM OPS - Development Cycle
 
@@ -506,9 +585,10 @@ You can use decorators (basically functions before functions) to make sure tha o
 - Are they formatted in the disired manner?
 
 [ ] Add the screenshot what affects your quality?
-  - double emphasis on the retrieval by MS. Lot's of people spend time on the LLM but the retrieval is often the cause of bad results. But search is the pre-requisite for the LLM. If the search is bad, the LLM can't do anything about it.
 
-### Manual Evaluation/Experimentation
+- double emphasis on the retrieval by MS. Lot's of people spend time on the LLM but the retrieval is often the cause of bad results. But search is the pre-requisite for the LLM. If the search is bad, the LLM can't do anything about it.
+
+###  Manual Evaluation/Experimentation
 
 #### Types of prompts
 
@@ -524,44 +604,71 @@ You can use decorators (basically functions before functions) to make sure tha o
 #### The "Prompt Forumula"
 
 => Share the link. Not perfect but very much worth to look at it.
+
 - Not every prompt needs all the components. It's a good starting point to experiment with different prompts.
 
 - **Task**: This is what you want the chatbot to do. It's the main goal of the prompt.
-- **Context**: 
+- **Context**:
   - TWhat is the user's background?
-  - How does success look like in? 
+  - How does success look like in?
   - What environment is in there?
-  - **Most Important for RAG**:::: 
+  - **Most Important for RAG**::::
 - **Examples**: Examples of the ...
 - **Persona**: This can have a huge impact...
 - **Format**: ...
 - **Tone**: ...
 
 #### Demo: Applying the Prompt Formula to a project
+
 - You can overwrite the prompt tempalte in chat...
 
 .. if you are targeting a end user which writes in english, write the whole prompt in english!
 
-
-### Automated Evaluation
+###  Automated Evaluation
 
 [ ] add the repo here
 
 - If you have experts for your data, you can use this to evalute the quality of the chatbot. You want that humans look through it and give you examples. This can be used for automated evaluation.
-- For the Evaluation you should use the most powerful GPT model (GPT-4) even though your bot works with GPT-3. 
+- For the Evaluation you should use the most powerful GPT model (GPT-4) even though your bot works with GPT-3.
 - Basically you start with a bunch of question by domain experts / later user with the perfect answer.
 - You can use GPT to generate more...
 - For evalution, this will send the prompt to your model get the answer and send this response to the GPT-4 to evaluate on different metrics (e.g. gpt_coherence). You will get a score for the answer. This can be used to evaluate the quality of the chatbot.
 - Evaluate each of the prompts and answers multiple times. It always gives a slightly different result. You will see the range of quality of the answers.
 - GPT metrics are in the range from 0 to 5. The higher the better.
 
-
-### Quality Monitoring
+###  Quality Monitoring
 
 - You can log the answers - remove the PII data first! There are services for this - also by Azure.
 
 There is also monitoring for health ==> add this
 
+##  I) Chat Completion API Tools & Functions in RAG Chat Apps
+
+- [ ] TODO Add slides
+
+- **Slides**: [Chat Completion API Tools & Functions in RAG Chat Apps]( "Click to open the PDF")
+- **Video**: [Live Session]()
+
+##  J) Continuous Deployment of your Chat App
+
+- [ ] TODO Add slides
+
+- **Slides**: [Continuous Deployment of your Chat App]( "Click to open the PDF")
+- **Video**: [Live Session]()
+
+##  K) Content Safety for Azure OpenAI
+
+- [ ] TODO Add slides
+
+- **Slides**: [Content Safety for Azure OpenAI]( "Click to open the PDF")
+- **Video**: [Live Session]()
+
+##  L) Building a Chat on your Business Data without writing a line of code
+
+- [ ] TODO Add slides
+
+- **Slides**: [Building a Chat on your Business Data without writing a line of code]( "Click to open the PDF")
+- **Video**: [Live Session]()
 
 ## Learnings
 
@@ -573,7 +680,7 @@ There is also monitoring for health ==> add this
 
 #### Technology behind Azure Ai Search
 
-Look at the "Hybrid Search" section of this readme. It's a combination of Keyword and Vector search. For Azure Ai Search they are using Reciprocal Rank Fusion (<[def]>). 
+Look at the "Hybrid Search" section of this readme. It's a combination of Keyword and Vector search. For Azure Ai Search they are using Reciprocal Rank Fusion (<[def]>).
 
 #### Experiments for Search Methods
 
@@ -591,10 +698,7 @@ Look at the "Hybrid Search" section of this readme. It's a combination of Keywor
 - Keep in mind that the benchmarks are common benchmarks and might lead to different results in your specific use case.
 - The results are only valid for Azure Ai Search and might be different for other search engines. Especially the "Semantic Rankig" is a proprietary method of Microsoft. It has to be checked what this methods does exactly and if it is available in other search engines as well.
 
-
 #### Retrieval is crucial for the success of the RAG Chatbot
-
-
 
 ### Further interesting points
 
@@ -654,8 +758,6 @@ They are doing a lot of things which is described in these Azure Ressources
 
 ....
 
-
-
 #### RAG Development Cycle
 
 ### Further Improvements
@@ -666,9 +768,10 @@ They are doing a lot of things which is described in these Azure Ressources
 
 - don't use GPT to create the prompt alone. Take this as a starting point but prompts are quite a new concept which the GPT was not trained on. It's worth to experiment with different prompts to find the best one for your use case.
 
-#### There is no golden prompt
+#### There is no golden prompt template
 
-- You need to experiment for each use case. 
+- GPT models change all the time...
+- You need to experiment for each use case.
 - You can use guidlenes to start but in the end it's best to build up experience. They argue it's kind of an art to find the best prompt for your use case.
 
 ###  Hot to put the chatbot into production
@@ -682,5 +785,8 @@ They are doing a lot of things which is described in these Azure Ressources
   - Knowledge Search with Embeddings => this is Azure Cognitive Search Database <https://github.com/ruoccofabrizio/azure-open-ai-embeddings-qna>
 - Prompt Engineering:
 
+CAI:
+
+- set up a project to learn practice learn prompting - could be also used for customers at some time. Ideally we connect this with the evaluatio tool.
 
 [def]: ttps://learn.microsoft.com/en-us/azure/search/vector-search-ranking#reciprocal-rank-fusion-rrf-for-hybrid-querie
