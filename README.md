@@ -1,6 +1,6 @@
 # Docs and Notes
 
-##  Quick Links
+## Quick Links
 
 - [Application link for Archive Companion](https://app-backend-ambj53mwk6u5g.azurewebsites.net/)
 - [MS Example Repo for RAG Chat](https://github.com/Azure-Samples/azure-search-openai-demo)
@@ -38,7 +38,7 @@
 [ ] Update at the end
 
 - [Docs and Notes](#docs-and-notes)
-  - [ Quick Links](#quick-links)
+  - [Quick Links](#quick-links)
   - [Todo](#todo)
   - [Table of Content](#table-of-content)
   - [A) Building a RAG Chat App](#a-building-a-rag-chat-app)
@@ -47,15 +47,15 @@
     - [How does RAG work?](#how-does-rag-work)
     - [Explain typical RAG components](#explain-typical-rag-components)
     - [What kind of skillset is needed to build a RAG based chatbot?](#what-kind-of-skillset-is-needed-to-build-a-rag-based-chatbot)
-  - [Explain how the repo works](#explain-how-the-repo-works)
-    - [Process Flow](#process-flow)
-    - [Architecture Components](#architecture-components)
-    - [Deployment (steps in readme.md below)](#deployment-steps-in-readmemd-below)
+    - [Explain how the repo works](#explain-how-the-repo-works)
+      - [Process Flow](#process-flow)
+      - [Architecture Components](#architecture-components)
+      - [Deployment (steps in readme.md below)](#deployment-steps-in-readmemd-below)
       - [Azure AI Search Pricing Insights](#azure-ai-search-pricing-insights)
       - [Cost Reduction Strategies](#cost-reduction-strategies)
-    - [Ingestion of your Data Azure Search OpenAI Demo - Data Ingestion Guide](#ingestion-of-your-data-azure-search-openai-demo---data-ingestion-guide)
-    - [Chatting with the Bot](#chatting-with-the-bot)
-    - [What does the thought process of the app looks like?](#what-does-the-thought-process-of-the-app-looks-like)
+      - [Ingestion of your Data Azure Search OpenAI Demo - Data Ingestion Guide](#ingestion-of-your-data-azure-search-openai-demo---data-ingestion-guide)
+      - [Chatting with the Bot](#chatting-with-the-bot)
+      - [What does the thought process of the app looks like?](#what-does-the-thought-process-of-the-app-looks-like)
   - [B) How to customize the RAG Chatbot](#b-how-to-customize-the-rag-chatbot)
     - [How to run the chatbot locally](#how-to-run-the-chatbot-locally)
       - [Hotloading the Backend](#hotloading-the-backend)
@@ -87,13 +87,14 @@
   - [ G) Access Control in Generative Ai](#g-access-control-in-generative-ai)
     - [How can I make sure that the user can only access the data which is allowed?](#how-can-i-make-sure-that-the-user-can-only-access-the-data-which-is-allowed)
   - [ H) Evaluating a RAG Chat App](#h-evaluating-a-rag-chat-app)
-    - [LLM OPS - Development Cycle](#llm-ops---development-cycle)
-    - [Evaluation: Are the answers high quality?](#evaluation-are-the-answers-high-quality)
+    - [Operational Lifecycle for RAG Chat App Development](#operational-lifecycle-for-rag-chat-app-development)
+    - [Quality of RAG: Are the answers high quality?](#quality-of-rag-are-the-answers-high-quality)
+    - [ Where to expirment with the prompts and retrieval?](#where-to-expirment-with-the-prompts-and-retrieval)
     - [ Manual Evaluation/Experimentation](#manual-evaluationexperimentation)
       - [Types of prompts](#types-of-prompts)
       - [How to create the System Prompts?](#how-to-create-the-system-prompts)
       - [The "Prompt Forumula"](#the-prompt-forumula)
-      - [Demo: Applying the Prompt Formula to a project](#demo-applying-the-prompt-formula-to-a-project)
+        - [Prompt Formula Components Ranked by Importance](#prompt-formula-components-ranked-by-importance)
     - [ Automated Evaluation](#automated-evaluation)
     - [ Quality Monitoring](#quality-monitoring)
   - [ I) Chat Completion API Tools \& Functions in RAG Chat Apps](#i-chat-completion-api-tools--functions-in-rag-chat-apps)
@@ -167,11 +168,11 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
 - **Low Code**: UIs which help you to build more complex cases but within a UI (e.g. Azure Studio - On Your Data). There you can add hardware compontents (Retrievers as Azuer Ai Search, differen LLMs, Features as User Authentication, Chat History persistace.)
 - **Code**: For Code base there are a lot of Azure Examples or for other suppliers as well. An example is the Azure RAG Chatbot which is used in this project <https://github.com/Azure-Samples/azure-search-openai-demo>.
 
-## Explain how the repo works
+### Explain how the repo works
 
 ![Azure Search OpenAI Demo Components](https://learn.microsoft.com/en-us/azure/search/media/retrieval-augmented-generation-overview/architecture-diagram.png "Azure Search OpenAI Demo Components")
 
-### Process Flow
+#### Process Flow
 
 1. The user enters input into the Website.
 2. The App Server/Orchestrator receives this input and formulates a query.
@@ -180,7 +181,7 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
 5. Azure OpenAI processes the prompt and knowledge to generate a natural language response.
 6. This response is sent back to the App UX through the App Server/Orchestrator for the user to view.
 
-### Architecture Components
+#### Architecture Components
 
 | Resource Name     | Type                  | Role in Architecture                                                                      | Note |
 |-------------------|-----------------------|-------------------------------------------------------------------------------------------|------|
@@ -193,7 +194,7 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
 | Azure OpenAI      | AI Service            | Integrates with OpenAI's API to generate natural language responses based on user input and information from Azure Cognitive Search. | Represents the integration with an external AI service provided by OpenAI, not an Azure service itself. |
 | Data Sources      | Various Databases     | Comprises SQL, blob storages, Cosomos DB and other data storage services that house the data the chatbot accesses. | Not a single Azure infrastructure element; this represents the actual data repositories, which may be hosted on Azure. |
 
-### Deployment (steps in readme.md below)
+#### Deployment (steps in readme.md below)
 
 - **Read the Cost Estimations Section**: Refer to the cost estimations section below before proceeding.
 - **Deployment Guide**: Follow the deployment guide available at [Azure Deployment Guide](https://github.com/Azure-Samples/azure-search-openai-demo/tree/main?tab=readme-ov-file#azure-deployment).
@@ -204,6 +205,8 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
 - **Backend Details**: The backend is a Python application that utilizes the Quart framework.
 
 #### Azure AI Search Pricing Insights
+
+![Azure Search OpenAI Demo Components](1_screenshots/Costs.png "Azure Search OpenAI Demo Components")
 
 - The main cost driver was Azure AI Search, not OpenAI.
 - Standard S1 Plan: $245/month, necessary for >2GB data. [Azure Search Pricing Details](https://azure.microsoft.com/en-gb/pricing/details/search/).
@@ -216,7 +219,7 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
   - [Tools to estimate costs for Azure](https://github.com/Azure-Samples/azure-search-openai-demo/tree/main?tab=readme-ov-file#azure-deployment)
   - [Instructional Video for Low-Cost Deployment](https://www.youtube.com/watch?v=nlIyos0RXHw)
 
-### Ingestion of your Data [Azure Search OpenAI Demo - Data Ingestion Guide](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md)
+#### Ingestion of your Data [Azure Search OpenAI Demo - Data Ingestion Guide](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md)
 
 ![alt text](https://miro.medium.com/v2/resize:fit:679/1*h4qoECB8eLEPQchsR5qA5A.gif)
 
@@ -226,7 +229,9 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
   - Alternatively, you can parse the documents locally and then upload them to Azure Search. This approach may be more cost-effective but requires additional effort.
 - Within Azure, documents are stored in Blob Storage. Azure Form Recognizer handles the document chunking, creating embeddings from the text. These embeddings, along with the text itself, are then stored in an index within Azure Search.
 
-### Chatting with the Bot
+![Chunking](1_screenshots/chunking.png)
+
+#### Chatting with the Bot
 
 - **Frontend to Backend Communication**: The frontend captures the user's input and forwards it to the backend. The backend, in turn, sends this input to the OpenAI API and then relays the response back to the frontend.
 - **Document Retrieval and Answer Generation**: In addition to interacting with the OpenAI API, the backend utilizes Azure Search to fetch documents, which are then used by the OpenAI API to formulate responses.
@@ -235,7 +240,7 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
   - **Ask Tab**: Meant for single-turn queries, providing straightforward, concise answers.
 - **Response Content**: Responses are comprehensive, including not only the direct answer but also citing the sources of the information. Additionally, the prompt used and the methodology behind generating the answer are disclosed, essentially revealing the "thought process."
 
-### What does the thought process of the app looks like?
+#### What does the thought process of the app looks like?
 
 You can check that at the frontend. There is a button "Show Thought Process" which will show you the sources and the prompt which was used to generate the answer. It consisis of the following parts:
 
@@ -574,19 +579,23 @@ You can use decorators (basically functions before functions) to make sure tha o
 - **Slides**: [Evaluating a RAG Chat App](2_slides/AIChatAppHack_EvaluatingAChatApp.pdf "Click to open the PDF")
 - **Video**: [Live Session](https://www.youtube.com/watch?v=rKRQce7zx3U)
 
-### LLM OPS - Development Cycle
+### Operational Lifecycle for RAG Chat App Development
 
-...
+![LLM OPS](1_screenshots/llm_ops_for_rag.png)
 
-### Evaluation: Are the answers high quality?
+### Quality of RAG: Are the answers high quality?
 
-- Are the answers correct (relative to the knowledge base)?
+- Are the answers correct (relative to your data in the knowledge base)?
 - Are they are clear and easy to understand?
-- Are they formatted in the disired manner?
+- Are they formatted in the desired manner?
 
-[ ] Add the screenshot what affects your quality?
+- There is a double emphasis on the retrieval by MS. Lot's of people spend time on the LLM but the retrieval is often the cause of bad results. But search is the pre-requisite for the LLM. If the search is bad, the LLM can't do anything about it.
 
-- double emphasis on the retrieval by MS. Lot's of people spend time on the LLM but the retrieval is often the cause of bad results. But search is the pre-requisite for the LLM. If the search is bad, the LLM can't do anything about it.
+![RAG Qualtiy](1_screenshots/rag_quality.png)
+
+###  Where to expirment with the prompts and retrieval?
+
+- In the frontend you can overwrite the settinngs for prompts and retrieval. This is a good way to experiment with different prompts and retrieval strategies on your data.
 
 ###  Manual Evaluation/Experimentation
 
@@ -599,34 +608,58 @@ You can use decorators (basically functions before functions) to make sure tha o
 
 - One size does not fit all. You have to experiment with different prompts to find the best one for your use case. Sometimes very simple prompts are the best, sometimes more complex ones. You need to experiment with different prompts to find the best one for your use case.
 
-[ ] Insert the slide here
-
 #### The "Prompt Forumula"
 
-=> Share the link. Not perfect but very much worth to look at it.
+There is a highly recommmend vidoe by Jeff Su (Google) which gives you [prompt formula](https://www.youtube.com/watch?v=jC4v5AS4RIM).
 
 - Not every prompt needs all the components. It's a good starting point to experiment with different prompts.
+- Don't see it as the golden standard but structured approach to experiment with different prompts.
 
-- **Task**: This is what you want the chatbot to do. It's the main goal of the prompt.
-- **Context**:
-  - TWhat is the user's background?
-  - How does success look like in?
-  - What environment is in there?
-  - **Most Important for RAG**::::
-- **Examples**: Examples of the ...
-- **Persona**: This can have a huge impact...
-- **Format**: ...
-- **Tone**: ...
+##### Prompt Formula Components Ranked by Importance
 
-#### Demo: Applying the Prompt Formula to a project
+Mandatory
 
-- You can overwrite the prompt tempalte in chat...
+- **Task** - Articulates the end goal and starts with an action verb.
+  - Answer (a question)
+  - Generate (code)
+  - Write (a short summary)
 
-.. if you are targeting a end user which writes in english, write the whole prompt in english!
+Important
+
+- **Context** - Uses guiding questions to help structure relevant and sufficient context. Use this three questions to structure the context:
+  - What’s the user’s background?
+  - What does success look like?
+  - What environment are they in?
+
+- **Exemplars** - Provides examples that drastically improve the quality of the output.
+  - Denote citations using [file1.txt][file2.doc]
+  - Use the STAR answer framework: Situation, Task, Action, Results
+  - Draft the job description using the format of this existing job description below delimited by triple backticks.
+
+Nice to Have
+
+- **Persona** - Considers who the AI should ideally emulate in the given task situation. Who would be the ideal person to answer this question?
+  - An experienced physical therapist with over 20 years of experience.
+  - A hiring manager looking to fill a [position] on your team.
+  - A senior product manager responsible for...
+
+- **Format** - Focuses on the layout or organization of the response. Visualise how the result should look like.
+  - Follow the answer to the user’s question with citations.
+  - Don't include markdown.
+  - Proof-read the document and correct all typos and grammar mistakes.
+
+- **Tone** - Reflects the AI’s attitude or emotional stance towards the subject and the audience. If you don't know the fitting word for the tone you are looking for, describe the feeling you want to convey.
+  - Formal
+  - Conversational and intimate
+  - Confident and assertive
 
 ###  Automated Evaluation
 
-[ ] add the repo here
+There is a Microsoft Open Source [Repository for automated RAG-Chat Evluation](https://github.com/Azure-Samples/ai-rag-chat-evaluator/tree/main). It's worth to look at it in detail.
+
+It works as follows:
+
+[ ] Edit text in detail again!
 
 - If you have experts for your data, you can use this to evalute the quality of the chatbot. You want that humans look through it and give you examples. This can be used for automated evaluation.
 - For the Evaluation you should use the most powerful GPT model (GPT-4) even though your bot works with GPT-3.
@@ -637,6 +670,8 @@ You can use decorators (basically functions before functions) to make sure tha o
 - GPT metrics are in the range from 0 to 5. The higher the better.
 
 ###  Quality Monitoring
+
+[ ] Edit text in detail again!
 
 - You can log the answers - remove the PII data first! There are services for this - also by Azure.
 
