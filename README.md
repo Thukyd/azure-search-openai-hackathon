@@ -1,4 +1,30 @@
-# Docs and Notes
+# Enhancing Historical Research with RAG Chatbots
+
+## Context
+
+The project idea revolves around the development of a chatbot designed to assist researchers in navigating through vast and complex sources. Specifically, the focus is on historical newspapers, such as the "Jüdische Zeitung," a pre-war Jewish newspaper from Vienna. These documents are printed in the "Fraktur" typeface, which, while offering a rich resource for historians, presents significant readability challenges for modern German speakers due to its antiquated design.
+
+## Goals
+
+1. **Accessibility**: The primary goal is to reduce the mental effort and time historians currently invest in studying newspapers printed in antiquated typefaces. By simplifying the process of reading through such materials, the chatbot aims to significantly enhance the efficiency of historical research.
+
+2. **Search by Topics**: Considering the weekly publication frequency of resources like the "Jüdische Zeitung," a major challenge for historians is locating relevant articles amidst vast amounts of information. The chatbot will enable users to search for articles by specific topics, streamlining the research process.
+
+3. **Uncover Hidden Gems**: During wartime, newspapers were subjected to censorship, forcing editors to employ subtle methods of reporting on sensitive issues. These "codes" are often overlooked in the original sources. A chatbot, powered by a Long-Short Term Memory-Recurrent Attention Gate (LLM-RAG) model, could prove invaluable in identifying these hidden messages.
+
+## Challenges & Learnings
+
+1. **(Optical) Character Recognition**: A significant technical challenge is the recognition of the "Fraktur" typeface. The pre-build parser struggled with that. The solution would be to build a custom parser which can handle the Fraktur typeface. This is a very time-consuming task and requires a lot of domain knowledge. There are also other commercial solutions. Consideration of limited time, I decided to use the pre-build parser and to focus on the other parts of the project.
+
+2. **Checking for Quality and Utilisation**: The chatbot should prioritize relevancy when presenting articles related to specific queries, such as those about the region "Galicia." A general problem for the bot is that "Galicia" is very often mentioned in the sources. I didn't solve this problem. The end user would have to dig deeper with more and more specific queries.
+
+3. **Preference for Sources**: While the primary focus is on original sources, the chatbot will also utilize literature and excerpts about the topic for additional context. It is crucial to develop a system that prioritizes original sources without excluding valuable supplementary materials.
+
+This project aims to transform the way historians interact with historical documents, making it easier to uncover and interpret the rich stories contained within them.
+
+
+
+# Docs (not finished)
 
 ## Quick Links
 
@@ -37,7 +63,11 @@
 
 [ ] Update at the end
 
-- [Docs and Notes](#docs-and-notes)
+- [Enhancing Historical Research with RAG Chatbots](#enhancing-historical-research-with-rag-chatbots)
+  - [Context](#context)
+  - [Goals](#goals)
+  - [Challenges \& Learnings](#challenges--learnings)
+- [Docs (not finished)](#docs-not-finished)
   - [Quick Links](#quick-links)
   - [Todo](#todo)
   - [Table of Content](#table-of-content)

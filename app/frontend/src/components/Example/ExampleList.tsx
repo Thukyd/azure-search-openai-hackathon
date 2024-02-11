@@ -5,9 +5,11 @@ import styles from "./Example.module.css";
 // NOTE: Frontend - Excchanged Default Examples
 
 const DEFAULT_EXAMPLES: string[] = [
-    "Tell me which events happend in Galicia?",
-    "What is the state of the war?",
-    "What news are there about the Jewish Community in Vienna?"
+    "Inform me about events in Galicia",
+    "How are Jewish refugees being supported, and what resources are available to them?",
+    "What news are there about the Jewish Community in Vienna?",
+    "Are there any updates on anti-Semitic legislation or incidents in war-torn countries?",
+    "What is the stance of Jewish leaders and organizations on the war?"
 ];
 
 const GPT4V_EXAMPLES: string[] = [
