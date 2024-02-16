@@ -44,6 +44,7 @@ This project aims to transform the way historians interact with historical docum
 - [ ] Add the Github ressources of the video to this doc: <https://www.youtube.com/watch?v=TI85JJVPnrM&t=1212> and  <https://github.com/sqlshep/OpenAI> - data pricacy etc. is mentionend there
 - [ ] Add these repo for a lot of great patterns: <https://github.com/microsoft/azure-openai-design-patterns>
 - [ ] at the end add table of content for the readme
+- [ ] Add LLM picture: https://miro.medium.com/v2/resize:fit:4800/format:webp/1*hP_OK4fBONVm_zEVgh4ZQA.gif
 - [ ] Describe your use case
   - What is your personal goal in the hackathon?
     - Understanding what Cognigy Knowledge Ai is behind the hood.
