@@ -1,8 +1,10 @@
 # Enhancing Historical Research with RAG Chatbots
 
-## Context
+## Context of Use Case
 
 The project idea revolves around the development of a chatbot designed to assist researchers in navigating through vast and complex sources. Specifically, the focus is on historical newspapers, such as the "Jüdische Zeitung," a pre-war Jewish newspaper from Vienna. These documents are printed in the "Fraktur" typeface, which, while offering a rich resource for historians, presents significant readability challenges for modern German speakers due to its antiquated design.
+
+This project aims to transform the way historians interact with historical documents, making it easier to uncover and interpret the rich stories contained within them.
 
 ## Goals
 
@@ -12,25 +14,20 @@ The project idea revolves around the development of a chatbot designed to assist
 
 3. **Uncover Hidden Gems**: During wartime, newspapers were subjected to censorship, forcing editors to employ subtle methods of reporting on sensitive issues. These "codes" are often overlooked in the original sources. A chatbot, powered by a Long-Short Term Memory-Recurrent Attention Gate (LLM-RAG) model, could prove invaluable in identifying these hidden messages.
 
-## Challenges & Learnings
+## Challenges & Learnings for implementation
 
-1. **(Optical) Character Recognition**: A significant technical challenge is the recognition of the "Fraktur" typeface. The pre-build parser struggled with that. The solution would be to build a custom parser which can handle the Fraktur typeface. This is a very time-consuming task and requires a lot of domain knowledge. There are also other commercial solutions. Consideration of limited time, I decided to use the pre-build parser and to focus on the other parts of the project.
+1. **(Optical) Character Recognition**: A significant technical challenge is the recognition of the "Fraktur" typeface. The pre-build parser struggled with that. The solution would be to build a custom parser which can handle the Fraktur typeface. This is a very time-consuming task and requires a lot of domain knowledge. There are also other commercial solutions which worked fair well although there are still mismatches. See the [original document](/data/Dr.%20Bloch's%20oesterreichische%20Wochenschrift/1917/Heft%201%20(5.1.1917).pdf) and the [OCR](/3_Benchmarks/Fraktur%20Benchmark%20-%20Bloch%20-%2005.01-2017-%20title.txt) result. In consideration of limited time, I decided to use the pre-build parser and to focus on the other parts of the project.
 
 2. **Checking for Quality and Utilisation**: The chatbot should prioritize relevancy when presenting articles related to specific queries, such as those about the region "Galicia." A general problem for the bot is that "Galicia" is very often mentioned in the sources. I didn't solve this problem. The end user would have to dig deeper with more and more specific queries.
 
 3. **Preference for Sources**: While the primary focus is on original sources, the chatbot will also utilize literature and excerpts about the topic for additional context. It is crucial to develop a system that prioritizes original sources without excluding valuable supplementary materials.
 
-This project aims to transform the way historians interact with historical documents, making it easier to uncover and interpret the rich stories contained within them.
-
-
-
-# Docs (not finished)
-
 ## Quick Links
 
 - [Application link for Archive Companion](https://app-backend-ambj53mwk6u5g.azurewebsites.net/)
-- [MS Example Repo for RAG Chat](https://github.com/Azure-Samples/azure-search-openai-demo)
+- [MS Example Repo for RAG Chat with 63 contributors and nearly 5k stars](https://github.com/Azure-Samples/azure-search-openai-demo)
 - [Hackathon Repo](https://github.com/microsoft/AI-Chat-App-Hack)
+- [Project links of other hackathon participants including videos, endpoints and links to repos](https://github.com/microsoft/AI-Chat-App-Hack/issues)
 
 ## Todo
 
@@ -65,10 +62,9 @@ This project aims to transform the way historians interact with historical docum
 [ ] Update at the end
 
 - [Enhancing Historical Research with RAG Chatbots](#enhancing-historical-research-with-rag-chatbots)
-  - [Context](#context)
+  - [Context of Use Case](#context-of-use-case)
   - [Goals](#goals)
-  - [Challenges \& Learnings](#challenges--learnings)
-- [Docs (not finished)](#docs-not-finished)
+  - [Challenges \& Learnings for implementation](#challenges--learnings-for-implementation)
   - [Quick Links](#quick-links)
   - [Todo](#todo)
   - [Table of Content](#table-of-content)
@@ -112,7 +108,8 @@ This project aims to transform the way historians interact with historical docum
       - [Hint: Chunking and Search Strategy](#hint-chunking-and-search-strategy)
       - [Demo to demonstrate the search methods](#demo-to-demonstrate-the-search-methods)
     - [Indexing data in Azure Ai Search](#indexing-data-in-azure-ai-search)
-      - [Manual Indexing](#manual-indexing)
+      - [Manual Indexing - How can you add your custom chunking?](#manual-indexing---how-can-you-add-your-custom-chunking)
+      - [Cloud-based chunking](#cloud-based-chunking)
   - [E) GPT-4 with Vision](#e-gpt-4-with-vision)
   - [F) RAG Chat Web Components](#f-rag-chat-web-components)
   - [ G) Access Control in Generative Ai](#g-access-control-in-generative-ai)
@@ -256,9 +253,15 @@ LLMs are good at Language but not at Reasoning. RAG is a combination of both. It
 
 - `data` (folder) - Contains the data sources (PDFs, etc.) for the chatbot.
 - `scripts` (folder) - Contains Python scripts to upload the data to Azure.
-  - By default, these scripts will process the documents by splitting them into individual pages and then pass them to Azure Document Intelligence.
-  - Alternatively, you can parse the documents locally and then upload them to Azure Search. This approach may be more cost-effective but requires additional effort.
-- Within Azure, documents are stored in Blob Storage. Azure Form Recognizer handles the document chunking, creating embeddings from the text. These embeddings, along with the text itself, are then stored in an index within Azure Search.
+  1. Upload the data to **Azure Blob Storage**.
+  2. Process the data using **Azure Document Intelligence**. (Extract the data from PDFs, etc.), see also ([Docs](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/concept-retrieval-augumented-generation?view=doc-intel-4.0.0)
+  3. Splitting data into chunks via **Azure Document Intelligence**.
+  4. Creating embeddings for the data using **Azure Document Intelligence**, see also ([Docs](https://learn.microsoft.com/en-us/azure/search/search-indexer-overview))
+  5. Storing the embeddings and the data in **Azure AI Search** in an index.
+- There are alternatives to all of these components, e.g, using a custom parser locally. This can reduce costs and optimise the process for your specific use case. Below in the Azure AI Search Best Practices section, there are some examples of how to do that.
+
+Manual Indexing (see also below in the Azure AI Search Best Practices section):
+![Manual Indexing](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/images/diagram_prepdocs.png?raw=true)
 
 ![Chunking](1_screenshots/chunking.png)
 
@@ -542,7 +545,23 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 
 ### Indexing data in Azure Ai Search
 
-#### Manual Indexing
+#### Manual Indexing - How can you add your custom chunking?
+
+![Chunking](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/images/diagram_prepdocs.png)
+
+- See above in the Data Ingestion section how the preconfigured flow works. If we want to save costs or optimise for our use case, we can also take over single components on own using the provided scripts, see also [Docs for manual indexing / chunking](https://github.com/Azure-samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md) and the video for the session.
+
+How does that work?
+
+- You've got a bunch of PDFs on a blob storage
+- You create the chunks via the Python scripts instead of the Azure Document Intelligence
+- Then you compute the embeddings using a **GPT emedding model** (e.g. **OpenAi ada-002**).
+
+#### Cloud-based chunking
+
+
+
+
 
 - [ ] Continue with the video of the session
 
@@ -856,3 +875,7 @@ CAI:
 - set up a project to learn practice learn prompting - could be also used for customers at some time. Ideally we connect this with the evaluatio tool.
 
 [def]: ttps://learn.microsoft.com/en-us/azure/search/vector-search-ranking#reciprocal-rank-fusion-rrf-for-hybrid-querie
+
+
+Lessson learned 
+=> If we are not happy with the performance of Cognigy Knowledge AI  we can subsitite component with Azure Cognigy Services. This ranges from using all Azure Services to handle the import, chunking, indexing and retrieval of data or decide to handle 
