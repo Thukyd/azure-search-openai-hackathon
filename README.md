@@ -22,27 +22,29 @@ This project aims to transform the way historians interact with historical docum
 
 3. **Preference for Sources**: While the primary focus is on original sources, the chatbot will also utilize literature and excerpts about the topic for additional context. It is crucial to develop a system that prioritizes original sources without excluding valuable supplementary materials.
 
-## Quick Links
+## Quick Links and further useful resources
 
 - [Application link for Archive Companion](https://app-backend-ambj53mwk6u5g.azurewebsites.net/)
 - [MS Example Repo for RAG Chat with 63 contributors and nearly 5k stars](https://github.com/Azure-Samples/azure-search-openai-demo)
 - [Hackathon Repo](https://github.com/microsoft/AI-Chat-App-Hack)
 - [Project links of other hackathon participants including videos, endpoints and links to repos](https://github.com/microsoft/AI-Chat-App-Hack/issues)
+- [Collection of useful OpenAI Links - inlcuding repos / docs / projects](https://github.com/sqlshep/OpenAI)
+- [Repo for Azure OpenAi Design Patterns - very helpful!](https://github.com/microsoft/azure-openai-design-patterns)
 
 ## Todo
 
 - [x] Check how the code works in detail
 - [x] Read through doc: <<https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/azure-ai-search-outperforming-vector-search-with-hybrid/-> ba-p/3929167>
 - [x] Go through Search Approach: Understand what Hybrid Retrieval means
-- [ ] Find out how expensive it was to build the App and how the cost was produced. (e.g. for Upload / Chunking for documents with 350 mb in total it was rougly 15 euros)
-  - [ ] There is a split down between running costs and using Azure Document Intelligence to parse the documents.
-- [ ] Watch the Custom RAG Chatvideo till the end. A lot of customisation opportunities: <https://www.youtube.com/watch?v=vt7oZg4bPAQ>
+- [x] Find out how expensive it was to build the App and how the cost was produced. (e.g. for Upload / Chunking for documents with 350 mb in total it was rougly 15 euros)
+  - [x] There is a split down between running costs and using Azure Document Intelligence to parse the documents.
+- [x] Watch the Custom RAG Chatvideo till the end. A lot of customisation opportunities: <https://www.youtube.com/watch?v=vt7oZg4bPAQ>
 - [x] Go through "builidng a Rag Chat App to slide 26 - a code walkthrough! Very important!
-- [ ] Add the Github ressources of the video to this doc: <https://www.youtube.com/watch?v=TI85JJVPnrM&t=1212> and  <https://github.com/sqlshep/OpenAI> - data pricacy etc. is mentionend there
-- [ ] Add these repo for a lot of great patterns: <https://github.com/microsoft/azure-openai-design-patterns>
-- [ ] at the end add table of content for the readme
-- [ ] Add LLM picture: https://miro.medium.com/v2/resize:fit:4800/format:webp/1*hP_OK4fBONVm_zEVgh4ZQA.gif
-- [ ] Describe your use case
+- [x] Add the Github ressources of the video to this doc: <https://www.youtube.com/watch?v=TI85JJVPnrM&t=1212> and  <https://github.com/sqlshep/OpenAI> - data pricacy etc. is mentionend there
+- [x] Add these repo for a lot of great patterns: <https://github.com/microsoft/azure-openai-design-patterns>
+- [x] at the end add table of content for the readme
+- [x] Add LLM picture: https://miro.medium.com/v2/resize:fit:4800/format:webp/1*hP_OK4fBONVm_zEVgh4ZQA.gif
+- [x] Describe your use case
   - What is your personal goal in the hackathon?
     - Understanding what Cognigy Knowledge Ai is behind the hood.
     - With that knowledge I want to be able evaluate the solution of the Cognigy platform better and understand the limitations and possibilitis
@@ -65,7 +67,7 @@ This project aims to transform the way historians interact with historical docum
   - [Context of Use Case](#context-of-use-case)
   - [Goals](#goals)
   - [Challenges \& Learnings for implementation](#challenges--learnings-for-implementation)
-  - [Quick Links](#quick-links)
+  - [Quick Links and further useful resources](#quick-links-and-further-useful-resources)
   - [Todo](#todo)
   - [Table of Content](#table-of-content)
   - [A) Building a RAG Chat App](#a-building-a-rag-chat-app)
@@ -114,7 +116,7 @@ This project aims to transform the way historians interact with historical docum
   - [F) RAG Chat Web Components](#f-rag-chat-web-components)
   - [ G) Access Control in Generative Ai](#g-access-control-in-generative-ai)
     - [How can I make sure that the user can only access the data which is allowed?](#how-can-i-make-sure-that-the-user-can-only-access-the-data-which-is-allowed)
-  - [ H) Evaluating a RAG Chat App](#h-evaluating-a-rag-chat-app)
+  - [H) Evaluating a RAG Chat App](#h-evaluating-a-rag-chat-app)
     - [Operational Lifecycle for RAG Chat App Development](#operational-lifecycle-for-rag-chat-app-development)
     - [Quality of RAG: Are the answers high quality?](#quality-of-rag-are-the-answers-high-quality)
     - [ Where to expirment with the prompts and retrieval?](#where-to-expirment-with-the-prompts-and-retrieval)
@@ -125,33 +127,25 @@ This project aims to transform the way historians interact with historical docum
         - [Prompt Formula Components Ranked by Importance](#prompt-formula-components-ranked-by-importance)
     - [ Automated Evaluation](#automated-evaluation)
     - [ Quality Monitoring](#quality-monitoring)
+    - [ User Feedback](#user-feedback)
+    - [ Monitoring for Health](#monitoring-for-health)
   - [ I) Chat Completion API Tools \& Functions in RAG Chat Apps](#i-chat-completion-api-tools--functions-in-rag-chat-apps)
   - [ J) Continuous Deployment of your Chat App](#j-continuous-deployment-of-your-chat-app)
   - [ K) Content Safety for Azure OpenAI](#k-content-safety-for-azure-openai)
   - [ L) Building a Chat on your Business Data without writing a line of code](#l-building-a-chat-on-your-business-data-without-writing-a-line-of-code)
-  - [Learnings](#learnings)
+  - [ M) Project Showcases](#m-project-showcases)
+  - [Lessons Learned](#lessons-learned)
     - [1. What is an optimal chunk size and a optimal overlap?](#1-what-is-an-optimal-chunk-size-and-a-optimal-overlap)
-      - [Technology behind Azure Ai Search](#technology-behind-azure-ai-search)
-      - [Experiments for Search Methods](#experiments-for-search-methods)
-      - [Experiment for Chunking Strategies](#experiment-for-chunking-strategies)
-      - [What to do with these results in CAI?](#what-to-do-with-these-results-in-cai)
-      - [Retrieval is crucial for the success of the RAG Chatbot](#retrieval-is-crucial-for-the-success-of-the-rag-chatbot)
-    - [Further interesting points](#further-interesting-points)
-      - [TODO: What kind of Skillsets are needed for building a RAG Chatbot?](#todo-what-kind-of-skillsets-are-needed-for-building-a-rag-chatbot)
-      - [TODO: What are your most important learnings and why?](#todo-what-are-your-most-important-learnings-and-why)
-      - [TODO: Top Challenges](#todo-top-challenges)
-    - [ Cost Estimations](#cost-estimations)
-    - [Lessons Learned: Do courses - always include hands on parts](#lessons-learned-do-courses---always-include-hands-on-parts)
-    - [Lessons Learned: Managing Costs](#lessons-learned-managing-costs)
-    - [Lessons Learned: User Interaction to GPT Model](#lessons-learned-user-interaction-to-gpt-model)
-    - [Lessons Learned: Cogingy](#lessons-learned-cogingy)
-        - [Evaluation if data was read correctly](#evaluation-if-data-was-read-correctly)
-      - [RAG Development Cycle](#rag-development-cycle)
-    - [Further Improvements](#further-improvements)
-      - [Generate Prompts](#generate-prompts)
-      - [There is no golden prompt template](#there-is-no-golden-prompt-template)
-    - [ Hot to put the chatbot into production](#hot-to-put-the-chatbot-into-production)
-    - [ Next Learning steps](#next-learning-steps)
+    - [2. How to estimate the costs for a RAG Chatbot?](#2-how-to-estimate-the-costs-for-a-rag-chatbot)
+    - [3. How to monitor the token consumption of the OpenAI model?](#3-how-to-monitor-the-token-consumption-of-the-openai-model)
+    - [4. Retrieval is the most important part of the RAG Chatbot](#4-retrieval-is-the-most-important-part-of-the-rag-chatbot)
+    - [5. How to evulate how good your RAG App is?](#5-how-to-evulate-how-good-your-rag-app-is)
+    - [6. How does a good prompt look like?](#6-how-does-a-good-prompt-look-like)
+    - [7. Can I let uses just give access?](#7-can-i-let-uses-just-give-access)
+    - [8. How does a RAG Development Cycle look like?](#8-how-does-a-rag-development-cycle-look-like)
+    - [9. How to put the chatbot into production?](#9-how-to-put-the-chatbot-into-production)
+    - [10. How to use the Azure AI Search to build a chatbot on your business data without writing a line of code?](#10-how-to-use-the-azure-ai-search-to-build-a-chatbot-on-your-business-data-without-writing-a-line-of-code)
+    - [11. What should I learn next?](#11-what-should-i-learn-next)
 
 ## A) Building a RAG Chat App
 
@@ -531,6 +525,8 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 
 - in the "Lessons Learned" section of this document there is a summary of an MS paper which evaluates these different methods in detail.
 
+![Cognnitive Search](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/517172i1172B83F89163CFD/image-size/large?v=v2&px=999)
+
 #### Demo to demonstrate the search methods
 
 - The Hackathon provided a [Repo which demontrates different Search mechanisms with examples](https://github.com/pamelafox/vector-search-demos/blob/main/search_relevance.ipynb)
@@ -549,7 +545,7 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 
 ![Chunking](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/images/diagram_prepdocs.png)
 
-- See above in the Data Ingestion section how the preconfigured flow works. If we want to save costs or optimise for our use case, we can also take over single components on own using the provided scripts, see also [Docs for manual indexing / chunking](https://github.com/Azure-samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md) and the video for the session.
+- See above in the Data Ingestion section how the preconfigured flow works. If we want to save costs or optimise for our use case, we can also take over single components on own using the provided scripts, see also [Docs for manual indexing / chunking](https://github.com/Azure-samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md) and the video for the session. This explains it in detail as well.
 
 How does that work?
 
@@ -559,11 +555,7 @@ How does that work?
 
 #### Cloud-based chunking
 
-
-
-
-
-- [ ] Continue with the video of the session
+- this is the default used in the provided repo. It's using the Azure Document Intelligence to create the chunks. This is a good option if you want to have a quick start and don't want to deal with the chunking yourself.
 
 ## E) GPT-4 with Vision
 
@@ -596,17 +588,12 @@ The session talks about how to use the RAG Chat Web Components in a RAG Chat app
 
 ##  G) Access Control in Generative Ai
 
-- [ ] TODO Add slides
-
-- **Slides**: [Access Control in Generative Ai]( "Click to open the PDF")
-- **Video**: [Live Session]()
+- **Slides**: [Access Control in Generative Ai](https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/access-control-in-generative-ai-applications-with-azure/ba-p/3956408 "Click to open the Page")
+- **Video**: [Live Session](https://www.youtube.com/watch?v=oahQ22oKosE)
 
 Don't spend too much time on this. Just make sure that you have a basic understanding of the concept. Provide some sources where you can read more about it. Make sure to mention that this architecture can be added changed via env variables on an existing deployment. You can for example gating the access to your endpoint behind easy Auth. This is a good option if you want to make sure that random users can't use all of your tokens.
 
 ### How can I make sure that the user can only access the data which is allowed?
-
-- [ ] Todo: add the blogpost link
-There is blog post about it from MS: [Access Control in Generative Ai]()
 
 - There are options in the developer settings where I can add access control.
 - **Use oid security filter**:
@@ -624,7 +611,9 @@ With that concept you can create a system which can have differen roles and perm
 
 You can use decorators (basically functions before functions) to make sure tha only authorized users can access certain routes. It's very easy to implement here.
 
-##  H) Evaluating a RAG Chat App
+![Access Control](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/517177i23511873BA880BA2/image-size/large?v=v2&px=999)
+
+## H) Evaluating a RAG Chat App
 
 - **Slides**: [Evaluating a RAG Chat App](2_slides/AIChatAppHack_EvaluatingAChatApp.pdf "Click to open the PDF")
 - **Video**: [Live Session](https://www.youtube.com/watch?v=rKRQce7zx3U)
@@ -705,57 +694,104 @@ Nice to Have
 
 ###  Automated Evaluation
 
-There is a Microsoft Open Source [Repository for automated RAG-Chat Evluation](https://github.com/Azure-Samples/ai-rag-chat-evaluator/tree/main). It's worth to look at it in detail.
+There is a Microsoft Open Source [Repository for automated RAG-Chat Evluation](https://github.com/Azure-Samples/ai-rag-chat-evaluator/tree/main). It's worth to look at it in detail. You can use that also for your own rag chat application
 
 It works as follows:
 
-[ ] Edit text in detail again!
+Preparation
 
-- If you have experts for your data, you can use this to evalute the quality of the chatbot. You want that humans look through it and give you examples. This can be used for automated evaluation.
-- For the Evaluation you should use the most powerful GPT model (GPT-4) even though your bot works with GPT-3.
-- Basically you start with a bunch of question by domain experts / later user with the perfect answer.
-- You can use GPT to generate more...
-- For evalution, this will send the prompt to your model get the answer and send this response to the GPT-4 to evaluate on different metrics (e.g. gpt_coherence). You will get a score for the answer. This can be used to evaluate the quality of the chatbot.
-- Evaluate each of the prompts and answers multiple times. It always gives a slightly different result. You will see the range of quality of the answers.
-- GPT metrics are in the range from 0 to 5. The higher the better.
+- For the generation and evaluation you want to use the most powerful LLM model available to you. Currently this would be a GP-4 model. But it also works with GPT-3.
+
+Ground truth data
+
+- You ask domain experts to generate questions and perfect answers. In the repo is already a tool for this.
+- Most people generate "ground truth" data of questions and perfect answers. Afterwards domain experts evaluate manually and correct these generate examples.
+  - There are several options to generate short / long / yes-no questions and answers.
+- For running systems you can also add user questions to that to further improve the ground truth data and build a full reallife dataset.
+- You should evaluat at least 200 Q/A pairs
+
+Evaluation
+
+- The tool will send each of the user prompts to your acutal application. Then it takes the responses and to GPT-4 with the instruction to evaluate on in-build metrics based on the curated best answer.
+  - **gpt_coherence**: This metric measures how well the responses generated by GPT-4 align with the overall flow and logical coherence of the conversation. It assesses the smoothness and consistency of the generated text in relation to the given user prompts. => "Does the answer make sense?"
+  - **gpt_groundedness**: This metric evaluates the extent to which the responses provided by GPT-4 are based on factual information and evidence. It measures the accuracy and reliability of the generated text in terms of being grounded in relevant knowledge and facts. => "Is the answer based on facts?"
+  - **gpt_relevance**: This metric gauges the relevance of the generated responses to the user prompts. It evaluates how closely the generated text aligns with the specific questions or requirements posed by the user, ensuring that the responses are on-topic and address the intended context. => "Is it relevant to the sources"
+  - **length**: This metric measures the length of the generated responses. It quantifies the number of words or characters in the text to provide an indication of the overall verbosity or conciseness of the generated output => a custom metric to check that it's not too long or too short
+  - **has_citation**: This metric identifies whether the generated responses contain proper citations or references to external sources of information. It assesses the presence of acknowledgments or attributions to support any claims or statements made in the generated text. => a custom metric to check if it shows the sources
+- As a result, you will get a score for each of the answers from 0 to 5 - the higher the better. This can be used to evaluate the quality of the chatbot. There is also a summariy tool, so you have the results in a ui.
+- You should always add baseline questions to the evaluation to see what the differences is after every change you make.
+- The temperature should be at 0.3 for this - based on the experience of the MS team.
+- Each question / answer pair is evaluated multiple times. It always gives a slightly different result. You will see the range of quality of the answers.
+- You can also add this to a repo / pipeline, so you can tie it to code changes. For us maybe for snaphot changes.
+
+Comparing tool
+
+- There is also a tool to compare the results of different runs. This is a good way to see if the changes you made to the model improved the quality of the answers.
+
+![Evaluation](/1_screenshots/Evaluation.png)
 
 ###  Quality Monitoring
 
-[ ] Edit text in detail again!
-
 - You can log the answers - remove the PII data first! There are services for this - also by Azure.
+- You want to unstream streamed answers - so you only have the full answer.
+- The logs should be stored in a secure place as CosmosDB or MongoDB.
 
-There is also monitoring for health ==> add this
+###  User Feedback
+
+- You can also add a feedback button to the chatbot. This is a good way to get feedback from the users. You can use this feedback to improve the chatbot.
+- There is an example in the repo.
+- This can be used by QA team, create monitoring for the ratio of good/bad feedbacks, set alerts for abnormal high good/bad feedbacks, etc.
+
+###  Monitoring for Health
+
+- You should alos check the general health of the chatbot. There is advice how to do this by Azure. e.g. for..
+  - Reponse times
+  - Realibility
+  - Token consumption
+  - errors
+  - Content safety (errors thrown when user try unallowed prompts
+
+[How to monitor OpenAI health and token consumption](https://learn.microsoft.com/en-gb/azure/ai-services/openai/how-to/monitoring)
 
 ##  I) Chat Completion API Tools & Functions in RAG Chat Apps
 
-- [ ] TODO Add slides
+- **Slides**: [Chat Completion API Tools & Functions in RAG Chat Apps](https://github.com/Azure-Samples/azure-search-openai-demo/ "Click to open the PDF")
+- **Video**: [Live Session](https://www.youtube.com/watch?v=ccyF5nMiA68)
 
-- **Slides**: [Chat Completion API Tools & Functions in RAG Chat Apps]( "Click to open the PDF")
-- **Video**: [Live Session]()
+This session focuses on function caling and tools when using the chat api. In the context of GPT it's not as funcitons in code but it means to call API data inside the chatbot. For details see the slides and the video.
+
+[Function calling](https://openai.com/blog/function-calling-and-other-api-updates)
 
 ##  J) Continuous Deployment of your Chat App
 
-- [ ] TODO Add slides
+- **Slides**: [Continuous Deployment of your Chat App](/2_slides/AIChatAppHack_ContinuousDeployment.pdf "Click to open the PDF")
+- **Video**: [Live Session](https://www.youtube.com/watch?v=mDFZdmn7nhk)
 
-- **Slides**: [Continuous Deployment of your Chat App]( "Click to open the PDF")
-- **Video**: [Live Session]()
+This session shows how to setup a continuous deployment pipeline for your chat app. E.g. to integrate this into Github Actions or Azure DevOps. For details see the slides and the video.
 
 ##  K) Content Safety for Azure OpenAI
 
-- [ ] TODO Add slides
+- **Slides**: [Content Safety for Azure OpenAI](/2_slides/Content_Safety_for_Azure_OpenAI.pdf "Click to open the PDF")
+- **Video**: [Live Session](https://www.youtube.com/watch?v=iTbqUbOAT9c)
 
-- **Slides**: [Content Safety for Azure OpenAI]( "Click to open the PDF")
-- **Video**: [Live Session]()
+This session explains how to use the Content Safety feature of Azure OpenAI. It deep dives how to setup content filters to avoid hate speech, self harm, sexual content, violonce etc. For details see the slides and the video.
 
 ##  L) Building a Chat on your Business Data without writing a line of code
 
-- [ ] TODO Add slides
+- **Slides**:
+  - [GPT Models](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#gpt-4-and-gpt-4-turbo-preview-model-availability)
+  - [Quick Start - Use your own data](https://learn.microsoft.com/en-us/azure/ai-services/openai/use-your-data-quickstart?tabs=command-line%2Cpython&pivots=programming-language-studio)
+  - [Build your own Assistant](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/assistant)
+- **Video**: [Live Session](https://www.youtube.com/watch?v=6p5CBzS_qQI)
 
-- **Slides**: [Building a Chat on your Business Data without writing a line of code]( "Click to open the PDF")
-- **Video**: [Live Session]()
+This session focuses on how to use the Azure AI Search to build a chatbot on your business data without writing a line of code. All inside the Azure Playground with a full frontend ready to deploy. Even if you want to use code later on, this is a good way to get started and to understand the concepts. For details see the slides and the video.
 
-## Learnings
+##  M) Project Showcases
+
+- **Slides**: [Submitted Projects](https://github.com/microsoft/AI-Chat-App-Hack/issues "Click to open the PDF")
+- **Video**: [Live Session](https://www.youtube.com/watch?v=a7QJh_nztks)
+
+## Lessons Learned
 
 ### 1. What is an optimal chunk size and a optimal overlap?
 
@@ -763,55 +799,16 @@ There is also monitoring for health ==> add this
 - They compared methods with different chunk sizes and different overlap sizes for Azure Ai Search.
 - Hybrid Retrieval (Keyword + Vectore search paired with Semantic Ranking) using chunks with 512 tokens and 25% overlap performed best.
 
-#### Technology behind Azure Ai Search
+####Technology behind Azure Ai Search
 
 Look at the "Hybrid Search" section of this readme. It's a combination of Keyword and Vector search. For Azure Ai Search they are using Reciprocal Rank Fusion (<[def]>).
 
-#### Experiments for Search Methods
+### 2. How to estimate the costs for a RAG Chatbot?
 
-- They tested the different methods with different query types and different retrieval configurations.
-- In both cases Hybrid retrieva with semantic ranking outperformed the other methods (namely Keyword, Vector and pure Hybrid).
-
-#### Experiment for Chunking Strategies
-
-- The paper compared different chunking and overalapping of chunks for the Hybrid Retrieval.
-- The best results were Chunks of 512 tokens with 25% overlap.
-
-#### What to do with these results in CAI?
-
-- This might be useful for data scientists in CAI as Chunink Strategy was one of the major questions by Francesc.
-- Keep in mind that the benchmarks are common benchmarks and might lead to different results in your specific use case.
-- The results are only valid for Azure Ai Search and might be different for other search engines. Especially the "Semantic Rankig" is a proprietary method of Microsoft. It has to be checked what this methods does exactly and if it is available in other search engines as well.
-
-#### Retrieval is crucial for the success of the RAG Chatbot
-
-### Further interesting points
-
-#### TODO: What kind of Skillsets are needed for building a RAG Chatbot?
-
-- Frontend / Backend: Classical Web Developer
-- Data Preparation: Data Engineer
-
-#### TODO: What are your most important learnings and why?
-
-- Cost estimations are really hard for this use case. It depends a lot on the size of the documents, your chunking strategy, the number of documents, the number of users, the number of requests, etc.
-- ==> What is the best way to estimate the costs for a RAG Chatbot?
-
-#### TODO: Top Challenges
-
-###  Cost Estimations
-
-### Lessons Learned: Do courses - always include hands on parts
-
-- For non-technical people:
-  - The Course by Nng
-  - then some hands one with Azure portal ressources?
-- For technical people:
-  - Hackathons..
-- Use the Allianz Boost!
-
-### Lessons Learned: Managing Costs
-
+- Look above in the "Cost Estimations" section of this readme. There is a guide to determine Azure costs in the Hackathon Repo. It's worth to read it in detail.
+- Also look at the "Azure AI Search Best Practices" section of this readme. There is a guide to determine Azure costs in the Hackathon Repo. It's worth to read it in detail.
+- Additionally, in the Evalutional chapter there is also an article linked which explains how to monitor the token consumption of the OpenAI model.
+- 
 There is [guide to determine Azure costs](https://github.com/microsoft/AI-Chat-App-Hack) in the Hackathon Repo. It's worth to read it in detail.
 
 - Parsing: High-quality data parsing incurs high costs. For example, parsing 20 PDFs (87MB) led to a $30 charge.
@@ -822,60 +819,50 @@ There is [guide to determine Azure costs](https://github.com/microsoft/AI-Chat-A
 - It's worth it to spend more time on data preparation to avoid unnecessary costs. Do a proof of concept to evaluate this costs. It's worth it to spend time on this!
   - create an example case with the needed infra. Check cost drivers on a limited set.
   - make sure you can identify the cost drivers and set up alerts for them.
+- In the evaluation chapter there is also an article linked which explains how to monitor the token consumption of the OpenAI model.
 
-### Lessons Learned: User Interaction to GPT Model
+### 3. How to monitor the token consumption of the OpenAI model?
+
+- Look at the "Automated Evaluation" section of this readme. There is a Microsoft Open Source Repository for automated RAG-Chat Evluation. It's worth to look at it in detail. You can use that also for your own rag chat application.
+
+### 4. Retrieval is the most important part of the RAG Chatbot
+
+- Look at the "Azure AI Search Best Practices" section of this readme. There is a guide to determine Azure costs in the Hackathon Repo. It's worth to read it in detail.
+
+### 5. How to evulate how good your RAG App is?
+
+- Look at the "Evaluating a RAG Chat App" section of this readme. There are manual and automated ways to evaluate the quality of the chatbot. It's worth to look at it in detail.
+
+### 6. How does a good prompt look like?
+
+- Look at the "Evaluating a RAG Chat App" section of this readme. There is a summary of a video which explains how to create a good prompt. It's worth to look at it in detail.
+- In short, there is no golden standard for a prompt. It's worth to experiment with different prompts to find the best one for your use case. Sometimes very simple prompts are the best, sometimes more complex ones. You need to experiment with different prompts to find the best one for your use case.
+- Don't just generate prompts with GPT but it can be a good starting point.
+
+### 7. Can I let uses just give access?
 
 - You probably do not want to give the user direct access to the GPT model behind for minimum two reasons:
   - the results of the chat are heavily dependent on the quality of the query. In this current architecture, the query will be send directly to the Knowledge Base. The results back for this are often not very good, if it's not formulated in a specific way, easy to consume for the knowledge base. Probably it's better to have a middleware which can help to improve the query before it's send to the knowledge base.
   - You don't want to expose the knowledge base to the user. It's a security risk. You want to have a middleware which can help to improve the query before it's send to the knowledge base.
 - For this, Cognigy can acutally bring a great value, if it will be transformed into an orchstrator for knowledge base & gpt.
+- There also more tipps in the Authentication and Authorization section of this readme.
 
-### Lessons Learned: Cogingy
+### 8. How does a RAG Development Cycle look like?
 
-They are doing a lot of things which is described in these Azure Ressources
+- Look at the "RAG Development Cycle" section of this readme. There is a guide to determine Azure costs in the Hackathon Repo. It's worth to read it in detail.
 
-- Knowlegd Base is basically the same as the RAG repository (<https://github.com/Azure-Samples/azure-search-openai-demo/tree/main>)
--
+### 9. How to put the chatbot into production?
 
-##### Evaluation if data was read correctly
+- [Setting this bot into production](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/productionizing.md)
 
-- There might be a lot of noise in the data....
+### 10. How to use the Azure AI Search to build a chatbot on your business data without writing a line of code?
 
-....
+- Look at the "Building a Chat on your Business Data without writing a line of code" section of this readme. It's a good way to get started and to understand the concepts. For details see the slides and the video.
 
-#### RAG Development Cycle
-
-### Further Improvements
-
-- Implement the Text Recognition for "Fraktur" (old german font) by using Transkribus OCR <https://readcoop.eu/transkribus/docu/rest-api/upload/>.
-
-#### Generate Prompts
-
-- don't use GPT to create the prompt alone. Take this as a starting point but prompts are quite a new concept which the GPT was not trained on. It's worth to experiment with different prompts to find the best one for your use case.
-
-#### There is no golden prompt template
-
-- GPT models change all the time...
-- You need to experiment for each use case.
-- You can use guidlenes to start but in the end it's best to build up experience. They argue it's kind of an art to find the best prompt for your use case.
-
-###  Hot to put the chatbot into production
-
-[Setting this bot into production](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/productionizing.md)
-
-###  Next Learning steps
+### 11. What should I learn next?
 
 - Lang Chain: This is a middleware which can be used to connect the Retriver and the LLM. It can also be used to cache the results of the Retriver to speed up the process. It can be also done in pure Python but there are libaries which can help you with that. (Langchain, LLammaindex, Semantic Kernel, etc.)
 - Azure OpenAI Design Patterns:
   - Knowledge Search with Embeddings => this is Azure Cognitive Search Database <https://github.com/ruoccofabrizio/azure-open-ai-embeddings-qna>
 - Prompt Engineering:
-
-CAI:
-
-- set up a project to learn practice learn prompting - could be also used for customers at some time. Ideally we connect this with the evaluatio tool.
-
-[def]: ttps://learn.microsoft.com/en-us/azure/search/vector-search-ranking#reciprocal-rank-fusion-rrf-for-hybrid-querie
-
-
-Lessson learned 
-=> If we are not happy with the performance of Cognigy Knowledge AI  we can subsitite component with Azure Cognigy Services. This ranges from using all Azure Services to handle the import, chunking, indexing and retrieval of data or decide to handle 
+  - You want to get more experience with that. It's even useful outside of building apps. 
