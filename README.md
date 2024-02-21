@@ -59,9 +59,7 @@ This project aims to transform the way historians interact with historical docum
 
 ![HackChat](1_screenshots/Hack_Chat.png)
 
-## Table of Content
-
-[ ] Update at the end
+## Table of Contents
 
 - [Enhancing Historical Research with RAG Chatbots](#enhancing-historical-research-with-rag-chatbots)
   - [Context of Use Case](#context-of-use-case)
@@ -69,7 +67,7 @@ This project aims to transform the way historians interact with historical docum
   - [Challenges \& Learnings for implementation](#challenges--learnings-for-implementation)
   - [Quick Links and further useful resources](#quick-links-and-further-useful-resources)
   - [Todo](#todo)
-  - [Table of Content](#table-of-content)
+  - [Table of Contents](#table-of-contents)
   - [A) Building a RAG Chat App](#a-building-a-rag-chat-app)
     - [How can you incorporate your own knowledge?](#how-can-you-incorporate-your-own-knowledge)
     - [Why RAG and not just GPT (an LLM)?](#why-rag-and-not-just-gpt-an-llm)
@@ -146,6 +144,7 @@ This project aims to transform the way historians interact with historical docum
     - [9. How to put the chatbot into production?](#9-how-to-put-the-chatbot-into-production)
     - [10. How to use the Azure AI Search to build a chatbot on your business data without writing a line of code?](#10-how-to-use-the-azure-ai-search-to-build-a-chatbot-on-your-business-data-without-writing-a-line-of-code)
     - [11. What should I learn next?](#11-what-should-i-learn-next)
+
 
 ## A) Building a RAG Chat App
 
