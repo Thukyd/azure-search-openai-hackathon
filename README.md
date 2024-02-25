@@ -145,7 +145,6 @@ This project aims to transform the way historians interact with historical docum
     - [10. How to use the Azure AI Search to build a chatbot on your business data without writing a line of code?](#10-how-to-use-the-azure-ai-search-to-build-a-chatbot-on-your-business-data-without-writing-a-line-of-code)
     - [11. What should I learn next?](#11-what-should-i-learn-next)
 
-
 ## A) Building a RAG Chat App
 
 - **Slides**: [Building a RAG Chat App](2_slides/AIChatAppHack_BuildingARAGChatApp.pdf "Click to open the PDF")
