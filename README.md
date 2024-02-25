@@ -156,7 +156,10 @@ This project aims to transform the way historians interact with historical docum
 - **Prompt Engineering**: You can give the LLM a bit of context but it only works if it has the knowledge inside it. Often it also halicinates knowledge which looks correct but if you are a domain expert you can see that it is wrong. So prompt engineering Can be helpful but normally not enough.
   - Example using Custom GPTs of OpenAI: Searching for "Indian food", see [Custom GPT | Salad Market - create your own salad recipe](https://chat.openai.com/g/g-dI7cfBY99-salad-market-create-your-own-salad-recipe)
 - **Fine tuning**: You can fine tune the LLM on your own data. But this is very expensive and you need a lot of data. This is a valid option when your use case is very specialisd, you have a lot of data and you need very high accuracy, then this is probably the way to go. For most of company use cases it's not a good option economically.
-- **Retrieval Augmented Generation (RAG)**: You can use a retrieval system to find the most relevant documents and then use the LLM to generate the answer. This is the approach we are using in this project.
+- **Retrieval Augmented Generation (RAG)**: You can use a retrieval system to find the most relevant documents and then use the LLM to generate the answer. This is the approach we are using in this project. You can get more info on how this is done with Weviate by following resources:
+  - [Deep Dive on Retrieval Augmented Generation with Weaviate](https://www.youtube.com/watch?v=OSt3sFT1i18)
+  - [Open Source RAG with Weaviate](https://www.youtube.com/watch?v=IiNDCPwmqF8)
+  - [Docs for Generative Search (RAG) with Weaviate](https://weaviate.io/developers/weaviate/starter-guides/generative)
 
 ### Why RAG and not just GPT (an LLM)?
 
