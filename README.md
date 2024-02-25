@@ -108,8 +108,8 @@ This project aims to transform the way historians interact with historical docum
       - [Hint: Chunking and Search Strategy](#hint-chunking-and-search-strategy)
       - [Demo to demonstrate the search methods](#demo-to-demonstrate-the-search-methods)
     - [Indexing data in Azure Ai Search](#indexing-data-in-azure-ai-search)
-      - [Manual Indexing - How can you add your custom chunking?](#manual-indexing---how-can-you-add-your-custom-chunking)
       - [Cloud-based chunking](#cloud-based-chunking)
+      - [Manual Indexing - How can you add your custom chunking?](#manual-indexing---how-can-you-add-your-custom-chunking)
   - [E) GPT-4 with Vision](#e-gpt-4-with-vision)
   - [F) RAG Chat Web Components](#f-rag-chat-web-components)
   - [ G) Access Control in Generative Ai](#g-access-control-in-generative-ai)
@@ -540,21 +540,21 @@ Source: <https://github.com/pamelafox/vector-search-demos/blob/main/vector_embed
 
 ### Indexing data in Azure Ai Search
 
+#### Cloud-based chunking
+
+- this is the default used in the provided repo. It's using the Azure Document Intelligence to create the chunks. Above you see how the preconfigured flow works. This is a good option if you want to have a quick start and don't want to deal with the chunking yourself.
+
 #### Manual Indexing - How can you add your custom chunking?
 
 ![Chunking](https://github.com/Azure-Samples/azure-search-openai-demo/blob/main/docs/images/diagram_prepdocs.png)
 
-- See above in the Data Ingestion section how the preconfigured flow works. If we want to save costs or optimise for our use case, we can also take over single components on own using the provided scripts, see also [Docs for manual indexing / chunking](https://github.com/Azure-samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md) and the video for the session. This explains it in detail as well.
+- If we want to save costs or optimise the preconfigured Ingestion flow for our use case, we can also take over single components on own using the provided scripts, see also [Docs for manual indexing / chunking](https://github.com/Azure-samples/azure-search-openai-demo/blob/main/docs/data_ingestion.md) and the video for the session. This explains it in detail as well.
 
 How does that work?
 
 - You've got a bunch of PDFs on a blob storage
 - You create the chunks via the Python scripts instead of the Azure Document Intelligence
 - Then you compute the embeddings using a **GPT emedding model** (e.g. **OpenAi ada-002**).
-
-#### Cloud-based chunking
-
-- this is the default used in the provided repo. It's using the Azure Document Intelligence to create the chunks. This is a good option if you want to have a quick start and don't want to deal with the chunking yourself.
 
 ## E) GPT-4 with Vision
 
